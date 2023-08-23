@@ -1,8 +1,9 @@
 ## JavaScript
 
-JavaScript is a synchronous single-thread language.
-Everything in JavaScript happens inside an Execution Context.
-You can assume this Execution Context to be a big box or a container in which the whole JavaScript code is executed
+- JavaScript is a synchronous single-thread language.
+- Everything in JavaScript happens inside an Execution Context.
+
+  You can assume this Execution Context to be a big box or a container in which the whole JavaScript code is executed
 
 ### Let's see how the Execution Context actually looks like
 
@@ -13,12 +14,16 @@ The Execution Context is like a big box and it has two components in it.
 1. **Memory Component (Variable Environment)**: The first component is also known as the Memory component, here all the variables and the functions are stored as key-value pairs.
    This Memory component is also known as the VARIABLE environment.
 
-2. **Code Component (Thread of Execution)**: The second component of this EXECUTION context is the Code Component.
+2. **Code Component (Thread of Execution)**: The second component of this Execution Context is the Code Component.
    This is the place where code is executed one line at a time.
-   This component is also known as the THREAD of Execution.
+   This component is also known as the Thread of Execution.
 
 This thread of execution is just like a thread in which the whole code is executed one line at a time.
 
 ### Synchronous Single-Thread Nature
 
 The term "single-threaded" in JavaScript indicates that it can only execute one command at a time. "Synchronous" means that it proceeds to the next line only after the current line has finished execution. Hence, JavaScript is considered a synchronous, single-threaded language.
+
+### Reference
+
+[Namaste JavaScript Playlist on YouTube](https://www.youtube.com/watch?v=pN6jk0uUrD8&list=PLlasXeu85E9cQ32gLCvAvr9vNaUccPVNP&ab_channel=AkshaySaini)

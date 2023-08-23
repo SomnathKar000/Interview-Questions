@@ -159,3 +159,7 @@ console.log(a); // Output: 100
 - **Local Scope**: Variables and functions declared within a block have a limited scope, preventing unintended side effects in other parts of the code.
 
 - **Encapsulation**: By encapsulating statements within a block, you can ensure that they operate as a single unit and maintain data integrity.
+
+### Reference
+
+[Namaste JavaScript Playlist on YouTube](https://www.youtube.com/watch?v=pN6jk0uUrD8&list=PLlasXeu85E9cQ32gLCvAvr9vNaUccPVNP&ab_channel=AkshaySaini)
