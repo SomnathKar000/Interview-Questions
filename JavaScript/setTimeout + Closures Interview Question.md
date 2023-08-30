@@ -59,3 +59,152 @@ const outer = () => {
 };
 outer();
 ```
+
+---
+
+**Question: Can you give an example of Closure in JS**
+
+---
+
+**Solution:**
+
+```javascript
+function outer() {
+  let a = 10;
+
+  function inner() {
+    console.log(a);
+  }
+
+  return inner;
+}
+
+let closureFunction = outer();
+closureFunction();
+```
+
+In this example, the `inner` function forms a closure with its surrounding lexical environment, which includes the variable `a`. When `outer` is invoked and `inner` is returned, it carries along with it the reference to the environment in which it was created. Therefore, when you call `closureFunction()`, it still has access to the value of `a`, resulting in the correct output.
+
+---
+
+**Question:**
+
+If you move the variable declaration (`let a = 10;`) before the `inner` function but after the `return` line, it will still form a closure as long as the variable `a` is referenced within the `inner` function. The sequence of declaration and function arrangement does not impact the formation of closures.
+
+Here's the example:
+
+```javascript
+function outer() {
+  function inner() {
+    console.log(a);
+  }
+
+  let a = 10;
+
+  return inner;
+}
+
+let closureFunction = outer();
+closureFunction();
+```
+
+In this scenario, the `inner` function still captures the reference to the variable `a` from its outer scope, forming a closure that retains access to the value of `a` when `closureFunction()` is invoked.
+
+---
+
+**Question: Can you give tell me few advantages of Closure ?**
+
+---
+
+**Solution:**
+
+Closure is very useful in JavaScript and Closure offer several advantages in JavaScript like It is used in Module Pattern, Function Currying, Data Encapsulation and data Privacy, Maintaining State, and in Higher-Order Functions.
+
+---
+
+**Question: How Closures helps in Data Encapsulation and data Privacy ?**
+
+---
+
+**Solution:**
+
+Let suppose we have an veriable and we want to add some data privacy over it Like other functions or other pices of code can not have access to that data.
+
+```javascript
+let count = 0;
+function increase() {
+  count++;
+}
+```
+
+The issue here is that any part of the code can access and modify the `count` variable, which can lead to unintended behavior. To address this, we can utilize closures to create a private context for the data.
+
+```javascript
+function counter() {
+  let count = 0;
+  return function increase() {
+    count++;
+    console.log(count);
+  };
+}
+
+let counter1 = counter();
+counter1(); // Output: 1
+counter1(); // Output: 2
+counter1(); // Output: 3
+```
+
+In this example, the `counter` function returns an inner function named `increase`. The `count` variable is encapsulated within the closure created by the `counter` function. This means that the `count` variable is only accessible through the `increase` function, and no external code can directly access or modify it.
+
+Additionally, if we create another counter instance using `let counter2 = counter();`, it will have its own separate closure with its own private `count` variable starting at zero:
+
+```javascript
+let counter2 = counter();
+counter2(); // Output: 1
+counter2(); // Output: 2
+counter2(); // Output: 3
+```
+
+---
+
+**Question: Suppose we have to create a decrement counter also then how will you add that?**
+
+---
+
+**Solution:**
+
+To create both an increment and a decrement counter, we can modify the constructor function to include both `increment` and `decrement` methods. Each method can modify the `count` variable accordingly.
+
+```javascript
+function Counter() {
+  let count = 0;
+
+  this.increment = function () {
+    count++;
+    console.log(count);
+  };
+
+  this.decrement = function () {
+    count--;
+    console.log(count);
+  };
+}
+
+const counter1 = new Counter();
+counter1.increment(); // Output: 1
+counter1.increment(); // Output: 2
+counter1.increment(); // Output: 3
+counter1.decrement(); // Output: 2
+```
+
+In this solution, the `Counter` constructor function creates an instance with both `increment` and `decrement` methods attached to it. Each method modifies the `count` variable accordingly, allowing you to achieve both increment and decrement functionality.
+
+---
+
+**Question: Do you know any disadvantages of closure?**
+
+---
+
+**Solution:**
+
+**Memory Consumption:** Closures can lead to increased memory consumption. Since closures retain references to their containing scopes, they can prevent variables from being garbage collected even when they're no longer needed, which might lead to memory leaks.
