@@ -208,3 +208,59 @@ In this solution, the `Counter` constructor function creates an instance with bo
 **Solution:**
 
 **Memory Consumption:** Closures can lead to increased memory consumption. Since closures retain references to their containing scopes, they can prevent variables from being garbage collected even when they're no longer needed, which might lead to memory leaks.
+
+---
+
+**Question: What is a garbage collector and what does it do?**
+
+---
+
+**Solution:**
+
+SO garbage collector is like a program in the browser or in the javascript engine which frez the unutilize memory.
+
+**Garbage Collector:**
+A garbage collector is a built-in component of many programming languages, including JavaScript, designed to automatically manage memory by identifying and reclaiming unused or unreachable memory. Its primary purpose is to free up memory occupied by objects that are no longer needed or accessible, preventing memory leaks and improving the efficiency of memory usage.
+
+---
+
+**Question: Relation between Garbage collection, Memory leaks, and Closure?**
+
+---
+
+**Solution:**
+
+```javascript
+function createCounter() {
+  let count = 0;
+
+  // A closure capturing 'count'
+  function increment() {
+    count++;
+    console.log(`Count is now ${count}`);
+  }
+
+  return increment;
+}
+
+const counter = createCounter();
+
+// We create a closure 'counter' that captures 'count'
+// Even though 'createCounter' function has finished executing, 'count' is not garbage collected
+// as long as the 'counter' closure exists.
+counter(); // Output: Count is now 1
+counter(); // Output: Count is now 2
+```
+
+So here `count` memory cannot be freed because we may later use `counter()`
+
+In the example:
+
+- `createCounter` defines a closure `increment` that captures the `count` variable.
+- When we call `createCounter()`, it returns the `increment` function, and we assign it to the `counter` variable.
+- As long as the `counter` closure exists, it holds a reference to the `count` variable. This means that even after `createCounter` has finished executing, the `count` variable remains in memory and cannot be garbage collected.
+  :
+
+- `createCounter` defines a closure `increment` that captures the `count` variable.
+- When you call `createCounter()`, it returns the `increment` function, and you assign it to the `counter` variable.
+- As long as the `counter` closure exists, it holds a reference to the `count` variable. This means that even after `createCounter` has finished executing, the `count` variable remains in memory and cannot be garbage collected.
