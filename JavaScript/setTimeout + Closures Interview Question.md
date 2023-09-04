@@ -259,8 +259,3 @@ In the example:
 - `createCounter` defines a closure `increment` that captures the `count` variable.
 - When we call `createCounter()`, it returns the `increment` function, and we assign it to the `counter` variable.
 - As long as the `counter` closure exists, it holds a reference to the `count` variable. This means that even after `createCounter` has finished executing, the `count` variable remains in memory and cannot be garbage collected.
-  :
-
-- `createCounter` defines a closure `increment` that captures the `count` variable.
-- When you call `createCounter()`, it returns the `increment` function, and you assign it to the `counter` variable.
-- As long as the `counter` closure exists, it holds a reference to the `count` variable. This means that even after `createCounter` has finished executing, the `count` variable remains in memory and cannot be garbage collected.
