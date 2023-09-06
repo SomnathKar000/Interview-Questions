@@ -145,3 +145,80 @@ In JavaScript, "parameters" and "arguments" are related but distinct concepts us
    ```
 
 In the above example, the `add` function has two parameters (`x` and `y`). When we call `add(2, 3)`, we are passing `2` and `3` as arguments. Inside the function, `x` will have the value `2`, and `y` will have the value `3`, and the function will return `5`.
+
+## First Class Functions
+
+The ability to use functions as values is known as **First Class Function**.
+
+**First Class Functions**: A simple definition of first-class functions is that they treat functions as first-class citizens in a programming language, allowing you to use functions just like any other data type, such as numbers or strings. This means you can assign functions to variables, pass them as arguments to other functions, return them from functions, and store them in data structures like arrays or objects.
+
+First-class functions are a fundamental concept in programming languages, and JavaScript is known for its robust support of first-class functions. Here's what it means to have first-class functions:
+
+1. **Functions as Values**:
+
+   - In languages with first-class functions, functions are treated as first-class citizens, just like any other data type such as numbers, strings, or objects.
+   - You can assign functions to variables, store them in data structures (e.g., arrays or objects), and pass them as arguments to other functions.
+   - Functions can be returned as values from other functions.
+
+   ```javascript
+   const greet = function (name) {
+     return `Hello, ${name}!`;
+   };
+
+   const sayHello = greet;
+   console.log(sayHello("Alice")); // Output: Hello, Alice!
+   ```
+
+2. **Passing Functions as Arguments**:
+
+   - In languages with first-class functions, you can pass functions as arguments to other functions.
+   - This is commonly used in higher-order functions, allowing you to create functions that operate on functions.
+
+   ```javascript
+   function apply(func, value) {
+     return func(value);
+   }
+
+   function double(x) {
+     return x * 2;
+   }
+
+   console.log(apply(double, 5)); // Output: 10
+   ```
+
+3. **Returning Functions**:
+
+   - Functions can return other functions as results.
+   - This is useful for creating closures, factory functions, and other advanced patterns.
+
+   ```javascript
+   function multiplier(factor) {
+     return function (x) {
+       return x * factor;
+     };
+   }
+
+   const double = multiplier(2);
+   console.log(double(5)); // Output: 10
+   ```
+
+4. **Storing Functions in Data Structures**:
+
+   - You can store functions in arrays, objects, or any other data structure.
+   - This enables you to work with collections of functions and choose which one to use at runtime.
+
+   ```javascript
+   const operations = [
+     function (x, y) {
+       return x + y;
+     },
+     function (x, y) {
+       return x - y;
+     },
+   ];
+
+   console.log(operations[0](5, 3)); // Output: 8
+   console.log(operations[1](5, 3)); // Output: 2
+   ```
+
+First-class functions provide a powerful and flexible way to work with functions in JavaScript, allowing you to create more expressive and modular code.
