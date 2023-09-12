@@ -55,3 +55,34 @@ In this example:
 - We get a reference to the button element with the ID `myButton`.
 - We attach a click event listener to the button.
 - When the button is clicked, the provided callback function displays an alert.
+
+## Closures along with Event listeners
+
+Closures are a powerful feature in JavaScript that allow functions to access variables that are not in their own scope. When used with event listeners, closures can help solve the problem of variable scoping.
+
+For example, consider the following code snippet:
+
+```javascript
+function initButtons() {
+  let count = 0;
+
+  document.getElementById("click-btn").addEventListener("click", () => {
+    console.log("Button Clicked", ++count);
+  });
+}
+initButtons();
+```
+
+## Why do we need to remove event listeners
+
+Event listeners are used to detect and respond to events that occur in the browser, such as mouse clicks, keyboard presses, and page loading. When an event listener is added to an element, it remains active until it is removed.
+
+There are several reasons why you might want to remove an event listener:
+
+1. **Memory management**: If you don't remove an event listener when it's no longer needed, it can cause a memory leak. This can happen if the listener is attached to a global object or if the element it's attached to is removed from the DOM without removing the listener first ¹.
+
+2. **Performance**: If you have a large number of event listeners attached to an element, it can slow down your application. Removing unused listeners can help improve performance ².
+
+3. **Collisions**: If you have multiple event listeners attached to the same element, they can interfere with each other and cause unexpected behavior. Removing unused listeners can help prevent these collisions ¹.
+
+In summary, removing event listeners when they're no longer needed is important for memory management, performance, and preventing collisions between listeners.
