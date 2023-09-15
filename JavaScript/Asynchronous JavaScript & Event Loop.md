@@ -101,3 +101,47 @@ Inside setTimeout callback
 ```
 
 This example demonstrates how the Event Loop manages the execution of asynchronous code (in this case, the `setTimeout` callback). It ensures that the callback is executed after the main thread has finished executing the synchronous code and the Call Stack is empty.
+
+## Callack Queue & Microtask Queue
+
+**Callback Queue (or Task Queue)**: The Callback Queue, also known as the Task Queue, is a queue that holds callback functions to be executed. Callbacks in the Callback Queue are processed after the main JavaScript thread has finished executing the current synchronous code. This queue includes tasks such as `setTimeout` callbacks and I/O callbacks (e.g., callbacks for handling file operations, network requests).
+
+**Microtask Queue (or Job Queue)**: The Microtask Queue, also known as the Job Queue, is another queue that holds callback functions, but it has higher priority than the Callback Queue. Microtasks are executed before the next rendering or repaint of the browser, allowing them to respond quickly to changes. Promises and certain DOM events, like `MutationObserver` callbacks, are examples of tasks that go into the Microtask Queue.
+
+Key Points:
+
+1. **Priority**: Microtasks in the Microtask Queue indeed have higher priority than tasks in the Callback Queue. This means that Microtasks will be executed before Callback Queue tasks.
+
+2. **Use Cases**:
+
+   - **Microtask Queue**: Use the Microtask Queue when you have code that needs to execute as soon as possible after the current execution context, such as when working with Promises or handling certain DOM changes. It's often used for tasks that should have minimal delay.
+   - **Callback Queue**: The Callback Queue is suitable for tasks that are less time-sensitive and can be executed after the main thread has finished its current work.
+
+3. **Order of Execution**: The Event Loop checks the Microtask Queue before the Callback Queue. Once the main thread is idle and the Call Stack is empty, it will execute all pending microtasks before moving to tasks in the Callback Queue.
+
+Here's a simplified example to illustrate the order of execution:
+
+```javascript
+console.log("Start");
+
+setTimeout(function () {
+  console.log("Callback Queue - setTimeout");
+}, 0);
+
+Promise.resolve().then(function () {
+  console.log("Microtask Queue - Promise.resolve");
+});
+
+console.log("End");
+```
+
+The output will be:
+
+```
+Start
+End
+Microtask Queue - Promise.resolve
+Callback Queue - setTimeout
+```
+
+In this example, the microtask (Promise) executes before the callback in the Callback Queue (setTimeout), demonstrating the higher priority of microtasks.
