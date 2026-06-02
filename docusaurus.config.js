@@ -84,16 +84,58 @@ const config = {
       },
       navbar: {
         title: 'Interview Prep Hub',
+        style: 'dark',
         logo: {
           alt: 'Interview Prep Hub Logo',
           src: 'img/logo.svg',
         },
         items: [
           {
-            type: 'docSidebar',
-            sidebarId: 'tutorialSidebar',
+            type: 'dropdown',
+            label: 'JavaScript',
             position: 'left',
-            label: 'Study Guide',
+            items: [
+              { label: 'How JavaScript Works', to: '/docs/javascript/1. How JavaScript Works' },
+              { label: 'Execution & Call Stack', to: '/docs/javascript/2. Execution of the code and Call Stack' },
+              { label: 'Hoisting', to: '/docs/javascript/3. Hoisting in JavaScript' },
+              { label: 'Closures', to: '/docs/javascript/8. Closures in JS' },
+              { label: 'Async & Event Loop', to: '/docs/javascript/12. Asynchronous JavaScript and Event Loop' },
+              { label: 'Promises', to: '/docs/javascript/15. Promises' },
+              { label: 'Async / Await', to: '/docs/javascript/16. async await' },
+            ],
+          },
+          {
+            type: 'dropdown',
+            label: 'React',
+            position: 'left',
+            items: [
+              { label: 'Overview', to: '/docs/react/Index' },
+              { label: 'Hooks', to: '/docs/react/Hooks' },
+              { label: 'Component Lifecycle', to: '/docs/react/React Component Lifecycle' },
+              { label: 'Redux Toolkit', to: '/docs/react/Redux Toolkit' },
+            ],
+          },
+          {
+            type: 'dropdown',
+            label: 'Backend',
+            position: 'left',
+            items: [
+              { label: 'How Node.js Works', to: '/docs/backend/How NodeJS Works' },
+              { label: 'HTTP Status Codes', to: '/docs/backend/Http Status Codes' },
+              { label: 'Kafka Basics', to: '/docs/backend/Kafka/Kafka Basic' },
+              { label: 'SSH', to: '/docs/backend/SSH' },
+            ],
+          },
+          {
+            type: 'dropdown',
+            label: 'More',
+            position: 'left',
+            items: [
+              { label: 'SQL vs NoSQL', to: '/docs/database/SQL vs NoSQL' },
+              { label: 'Database Transactions', to: '/docs/database/Handle Database Transactions' },
+              { label: 'Horizontal vs Vertical Scaling', to: '/docs/cloud/Horizontal vs Vertical Scaling' },
+              { label: 'DSA Operators', to: '/docs/dsa/Operators' },
+            ],
           },
           {
             href: 'https://github.com/SomnathKar000/Interview-Questions',
@@ -102,32 +144,7 @@ const config = {
           },
         ],
       },
-      footer: {
-        style: 'dark',
-        links: [
-          {
-            title: 'Topics',
-            items: [
-              { label: 'JavaScript', to: '/docs/javascript' },
-              { label: 'React', to: '/docs/react' },
-              { label: 'Backend', to: '/docs/backend' },
-              { label: 'Database', to: '/docs/database' },
-            ],
-          },
-          {
-            title: 'More',
-            items: [
-              { label: 'Cloud', to: '/docs/cloud' },
-              { label: 'DSA', to: '/docs/dsa' },
-              {
-                label: 'GitHub',
-                href: 'https://github.com/SomnathKar000/Interview-Questions',
-              },
-            ],
-          },
-        ],
-        copyright: `Copyright © ${new Date().getFullYear()} Interview Prep Hub. Built with Docusaurus.`,
-      },
+
       prism: {
         theme: prismThemes.github,
         darkTheme: prismThemes.dracula,
