@@ -1,3 +1,8 @@
+---
+title: "Hooks"
+sidebar_position: 2
+---
+
 ## What are React Hooks?
 
 **React Hooks** are new Set of features in React that allow you to use state and other react features without using a class.

@@ -1,6 +1,7 @@
 ---
+title: "Welcome"
 sidebar_position: 0
-slug: /
+slug: /intro
 ---
 
 # 🎯 Interview Prep Hub

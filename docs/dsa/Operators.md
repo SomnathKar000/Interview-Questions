@@ -1,3 +1,8 @@
+---
+title: "Operators"
+sidebar_position: 1
+---
+
 ## Types of operator
 
 Here's a brief explanation of each category:

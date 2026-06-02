@@ -1,3 +1,8 @@
+---
+title: "Horizontal vs Vertical Scaling"
+sidebar_position: 1
+---
+
 ## What Is Scalability?
 
 `Scalability` describes a system’s elasticity. While we often use it to refer to a system’s ability to grow, it is not exclusive to this definition. We can scale down, scale up, and scale out accordingly.

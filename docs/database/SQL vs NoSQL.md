@@ -1,3 +1,8 @@
+---
+title: "SQL vs NoSQL"
+sidebar_position: 1
+---
+
 ## SQL
 
 SQL stands for Structure Query Language. It is standard programing language used for operating Relational Databases.

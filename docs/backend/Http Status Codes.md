@@ -1,3 +1,8 @@
+---
+title: "Http Status Codes"
+sidebar_position: 2
+---
+
 # 🌐 HTTP Status Codes Reference
 
 HTTP status codes are standardized responses returned by a server to indicate the result of a client's request.  

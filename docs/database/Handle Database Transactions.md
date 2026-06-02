@@ -1,3 +1,8 @@
+---
+title: "Handle Database Transactions"
+sidebar_position: 2
+---
+
 ## Sequelize
 
 Sequelize, an Object-Relational Mapping (ORM) library for Node.js, provides a convenient way to handle database transactions. Database transactions are used to group multiple database operations into a single, atomic unit. This ensures that either all the operations within the transaction are successfully completed, or none of them are, maintaining the integrity of the database.

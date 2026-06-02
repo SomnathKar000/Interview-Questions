@@ -1,3 +1,8 @@
+---
+title: "Kafka Basic"
+sidebar_position: 1
+---
+
 Here's a revised and improved version of the text on Apache Kafka:
 
 ---

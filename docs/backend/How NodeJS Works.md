@@ -1,3 +1,8 @@
+---
+title: "How NodeJS Works"
+sidebar_position: 1
+---
+
 ## How NodeJS Works
 
 When a client makes a request to a Node.js server, that request is placed into the Event Queue. The Event Loop periodically checks the Event Queue for pending requests, processing them in a first-in-first-out (FIFO) manner. Think of the Event Loop as a gatekeeper monitoring the Event Queue's status.

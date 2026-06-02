@@ -1,3 +1,8 @@
+---
+title: "React Component Lifecycle"
+sidebar_position: 3
+---
+
 In React, component lifecycle methods provide hooks into different stages of a component's existence, allowing you to control its behavior and perform essential actions at specific points. Here's a breakdown of the commonly used lifecycle methods:
 
 ### Class Components:
