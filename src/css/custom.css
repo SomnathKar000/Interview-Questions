@@ -1,0 +1,60 @@
+/**
+ * Interview Prep Hub — Custom Theme
+ * Infima CSS framework overrides
+ */
+
+/* ── Color Palette (Docusaurus defaults) ────────────────── */
+:root {
+  --ifm-color-primary: #2e8555;
+  --ifm-color-primary-dark: #29784c;
+  --ifm-color-primary-darker: #277148;
+  --ifm-color-primary-darkest: #205d3b;
+  --ifm-color-primary-light: #33925d;
+  --ifm-color-primary-lighter: #359962;
+  --ifm-color-primary-lightest: #3cad6e;
+  --ifm-code-font-size: 95%;
+  --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.1);
+
+  --ifm-font-family-base: 'Inter', system-ui, -apple-system, sans-serif;
+}
+
+[data-theme='dark'] {
+  --ifm-color-primary: #25c2a0;
+  --ifm-color-primary-dark: #21af90;
+  --ifm-color-primary-darker: #1fa588;
+  --ifm-color-primary-darkest: #1a8870;
+  --ifm-color-primary-light: #29d5b0;
+  --ifm-color-primary-lighter: #32d8b4;
+  --ifm-color-primary-lightest: #4fddbf;
+  --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.3);
+}
+
+/* ── Google Font ───────────────────────────────────────── */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+/* ── Navbar ────────────────────────────────────────────── */
+.navbar__link {
+  font-weight: 500;
+  transition: color 0.2s ease;
+}
+
+/* Dropdown menu */
+.dropdown__menu {
+  border-radius: 10px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+}
+
+.dropdown__link {
+  border-radius: 6px;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+/* ── Footer — hidden ───────────────────────────────────── */
+.footer {
+  display: none;
+}
+
+/* ── Sidebar ───────────────────────────────────────────── */
+.menu__link--active {
+  font-weight: 600;
+}

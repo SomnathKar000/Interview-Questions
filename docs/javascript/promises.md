@@ -1,0 +1,43 @@
+---
+title: "Promises"
+sidebar_position: 15
+---
+
+## Promises
+
+Promises are objects used to manage asynchronous operations in JavaScript. They serve as placeholders to store the eventual result (or error) of an asynchronous task.
+
+Promises have three states:
+
+1. **Pending**: The initial state, representing an ongoing asynchronous operation.
+2. **Fulfilled**: The state when the asynchronous operation is successfully completed, and a value is available.
+3. **Rejected**: The state when an error occurs during the asynchronous operation.
+
+Promises provide a structured way to handle asynchronous code and avoid issues like callback hell. Developers can attach functions to promise objects using `.then()` and `.catch()` to handle the results or errors when the operation is complete. This approach improves code readability and reliability.
+
+## Create a Promise
+
+To create a Promise in JavaScript, you can use the Promise constructor. A Promise is typically used for handling asynchronous operations. Here's how you can create a simple Promise:
+
+```javascript
+const myPromise = new Promise((resolve, reject) => {
+  // Asynchronous operation, e.g., fetching data from a server
+  setTimeout(() => {
+    const success = true; // Simulate a successful operation
+    if (success) {
+      resolve("Operation succeeded"); // Resolve the Promise with a value
+    } else {
+      reject("Operation failed"); // Reject the Promise with an error
+    }
+  }, 2000); // Simulate a 2-second delay
+});
+
+// You can attach callback functions to handle the resolution or rejection of the Promise
+myPromise
+  .then((result) => {
+    console.log("Success:", result); // This will be executed if the Promise is resolved
+  })
+  .catch((error) => {
+    console.error("Error:", error); // This will be executed if the Promise is rejected
+  });
+```
