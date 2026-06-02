@@ -1,41 +1,101 @@
-# Website
+# 📚 Interview Prep Hub
 
-This website is built using [Docusaurus](https://docusaurus.io/), a modern static website generator.
+A comprehensive, searchable interview preparation website built with [Docusaurus](https://docusaurus.io/). Covers everything you need to crack full-stack developer interviews.
 
-## Installation
+## 🔗 Live Site
 
-```bash
-yarn
-```
+> Coming soon — deploy to GitHub Pages or Vercel
 
-## Local Development
+---
 
-```bash
-yarn start
-```
+## 📖 Topics Covered
 
-This command starts a local development server and opens up a browser window. Most changes are reflected live without having to restart the server.
+| Category       | Topics                                                                                                                  |
+| -------------- | ----------------------------------------------------------------------------------------------------------------------- |
+| **JavaScript** | Execution context, hoisting, closures, scope, async/await, event loop, promises, higher-order functions, `this` keyword |
+| **React**      | Hooks, component lifecycle, Redux Toolkit, interview Q&A                                                                |
+| **Backend**    | How Node.js works, HTTP status codes, Kafka basics, SSH                                                                 |
+| **Database**   | SQL vs NoSQL, database transactions                                                                                     |
+| **Cloud**      | Horizontal vs vertical scaling                                                                                          |
+| **DSA**        | Operators and problem patterns                                                                                          |
 
-## Build
+---
 
-```bash
-yarn build
-```
+## 🚀 Getting Started
 
-This command generates static content into the `build` directory and can be served using any static contents hosting service.
+### Prerequisites
 
-## Deployment
+- [Node.js](https://nodejs.org/) v18 or higher
+- npm
 
-Using SSH:
-
-```bash
-USE_SSH=true yarn deploy
-```
-
-Not using SSH:
+### Installation
 
 ```bash
-GIT_USER=<Your GitHub username> yarn deploy
+npm install
 ```
 
-If you are using GitHub pages for hosting, this command is a convenient way to build the website and push to the `gh-pages` branch.
+### Local Development
+
+```bash
+npm start
+```
+
+Starts the dev server at [http://localhost:3000](http://localhost:3000). Changes are reflected live without restarting.
+
+### Build for Production
+
+```bash
+npm run build
+```
+
+Generates static output into the `build/` directory, ready to deploy to any static hosting service.
+
+### Serve Production Build Locally
+
+```bash
+npm run serve
+```
+
+---
+
+## 🗂️ Project Structure
+
+```
+Interview-Questions/
+├── docs/                   # All documentation / interview prep content
+│   ├── javascript/         # 20 JavaScript topics
+│   ├── react/              # React, Hooks, Redux
+│   ├── backend/            # Node.js, HTTP, Kafka, SSH
+│   │   └── Kafka/
+│   ├── database/           # SQL vs NoSQL, Transactions
+│   ├── cloud/              # Scaling strategies
+│   └── dsa/                # Data structures & algorithms
+├── src/
+│   ├── components/         # Custom React components
+│   ├── css/custom.css      # Global styles & theme overrides
+│   └── pages/              # Custom pages (homepage)
+├── static/                 # Static assets (images, favicon)
+├── Data/                   # Original source markdown files
+├── scripts/                # Utility scripts
+├── docusaurus.config.js    # Site configuration
+└── sidebars.js             # Sidebar auto-generated from filesystem
+```
+
+---
+
+## 🛠️ Built With
+
+- [Docusaurus 3](https://docusaurus.io/) — Static site generator
+- [React 19](https://react.dev/) — UI framework
+- [Prism](https://prismjs.com/) — Syntax highlighting
+- [Inter](https://fonts.google.com/specimen/Inter) — Typography
+
+---
+
+## 🤝 Contributing
+
+Contributions, additions, and corrections are welcome!
+
+1. Fork the repo
+2. Add your notes under the relevant `docs/` category
+3. Submit a pull request
