@@ -113,7 +113,7 @@ const config = {
               { label: 'Hooks',               to: '/docs/react/hooks' },
               { label: 'Component Lifecycle', to: '/docs/react/component-lifecycle' },
               { label: 'Redux Toolkit',       to: '/docs/react/redux-toolkit' },
-              { label: 'useState Deep Dive',  to: '/docs/react/react-deep-dive/useState' },
+              { label: 'React Deep Dive',   to: '/docs/react/react-deep-dive' },
             ],
           },
           {
