@@ -1,0 +1,9 @@
+{
+  "label": "React Deep Dive",
+  "position": 5,
+  "link": {
+    "type": "generated-index",
+    "slug": "/react/react-deep-dive",
+    "description": "In-depth explorations of React hooks — useState, useRef, useEffect, useContext, useMemo, useCallback, mutability, and architectural patterns."
+  }
+}
