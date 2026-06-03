@@ -113,6 +113,7 @@ const config = {
               { label: 'Hooks',               to: '/docs/react/hooks' },
               { label: 'Component Lifecycle', to: '/docs/react/component-lifecycle' },
               { label: 'Redux Toolkit',       to: '/docs/react/redux-toolkit' },
+              { label: 'useState Deep Dive',  to: '/docs/react/react-deep-dive/useState' },
             ],
           },
           {
@@ -122,7 +123,7 @@ const config = {
             items: [
               { label: 'How Node.js Works',  to: '/docs/backend/how-nodejs-works' },
               { label: 'HTTP Status Codes',  to: '/docs/backend/http-status-codes' },
-              { label: 'Kafka Basics',       to: '/docs/backend/Kafka/kafka-basic' },
+              { label: 'Kafka Basics',       to: '/docs/backend/kafka/kafka-basic' },
               { label: 'SSH',               to: '/docs/backend/ssh' },
             ],
           },

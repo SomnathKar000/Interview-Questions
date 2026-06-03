@@ -1,6 +1,7 @@
 ---
-title: "useState"
+title: "useState Deep Dive"
 sidebar_position: 1
+description: "Senior-level deep dive into useState — closures, batching, immutability, derived state, and architectural tradeoffs."
 ---
 
 # `useState` — From Surface Level to Senior-Level Understanding
@@ -141,7 +142,7 @@ const [theme, setTheme] = useState(() => {
 Without lazy init:
 
 - localStorage gets hit every render
-  :::
+:::
 
 ---
 
