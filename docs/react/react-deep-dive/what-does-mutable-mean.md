@@ -1,10 +1,10 @@
 ---
-title: "What does Mutable mean?"
+title: "Mutability in React"
 sidebar_position: 3
-description: "Senior-level deep dive into Mutable — closures, batching, immutability, derived state, and architectural tradeoffs."
+description: "Understanding mutability vs immutability in React — why useState is immutable, why useRef is mutable, and the senior-level ref + state pattern."
 ---
 
-# 1. What does "mutable" actually mean?
+# What Does "Mutable" Actually Mean?
 
 Mutable means:
 
@@ -12,7 +12,9 @@ Mutable means:
 
 ---
 
-# Mutable Example
+## 1. Mutable vs Immutable
+
+### Mutable Example
 
 ```js
 const obj = { count: 0 };
@@ -22,12 +24,9 @@ obj.count = 1;
 
 The object itself was modified.
 
-Same memory reference.
-Only internal value changed.
+Same memory reference. Only internal value changed.
 
----
-
-# Immutable Example
+### Immutable Example
 
 Instead of modifying:
 
@@ -49,9 +48,7 @@ Now:
 - old reference != new reference
 - React can detect change easily
 
----
-
-# Why React prefers immutability
+### Why React Prefers Immutability
 
 React rendering relies heavily on:
 
@@ -59,13 +56,15 @@ React rendering relies heavily on:
 oldRef !== newRef;
 ```
 
+:::info
 Reference comparison is cheap.
 
 Deep comparison is expensive.
+:::
 
 ---
 
-# 2. Why `useState` says "shouldn't mutate"
+## 2. Why `useState` Says "Shouldn't Mutate"
 
 Technically you _can_ mutate state.
 
@@ -83,9 +82,7 @@ This is mutation.
 
 But React won't reliably detect it.
 
----
-
-# Problem
+### ❌ Problem
 
 ```jsx
 setUser(user);
@@ -93,11 +90,11 @@ setUser(user);
 
 Reference remains same.
 
+:::danger
 React may skip rendering.
+:::
 
----
-
-# Correct
+### ✅ Correct
 
 ```jsx
 setUser((prev) => ({
@@ -118,7 +115,7 @@ and re-renders.
 
 ---
 
-# 3. Why refs ARE mutable
+## 3. Why Refs ARE Mutable
 
 This is intentional design.
 
@@ -138,9 +135,9 @@ Because refs are meant for:
 
 ---
 
-# 4. The confusion: "Why not useState instead?"
+## 4. The Confusion: "Why Not useState Instead?"
 
-Your example:
+Example:
 
 ```jsx
 const isSubmitting = useRef(false);
@@ -160,7 +157,7 @@ Let's break it down deeply.
 
 ---
 
-# 5. Why this works
+## 5. Why This Works
 
 The ref stores mutable value across renders.
 
@@ -172,23 +169,15 @@ if (isSubmitting.current) return;
 
 prevents duplicate submission.
 
----
-
-# Important Part
-
-Changing:
-
-```jsx
-isSubmitting.current = true;
-```
-
-does NOT re-render component.
+:::info[Important Part]
+Changing `isSubmitting.current = true` does NOT re-render component.
 
 That's the whole point.
+:::
 
 ---
 
-# 6. What if we used `useState`?
+## 6. What If We Used `useState`?
 
 ```jsx
 const [isSubmitting, setIsSubmitting] = useState(false);
@@ -200,17 +189,11 @@ Then:
 setIsSubmitting(true);
 ```
 
-causes re-render.
+causes re-render. Is that bad? Depends.
 
 ---
 
-# Is that bad?
-
-Depends.
-
----
-
-# 7. When `useState` is CORRECT
+## 7. When `useState` is CORRECT
 
 If UI depends on it:
 
@@ -218,43 +201,31 @@ If UI depends on it:
 <button disabled={isSubmitting}>Submit</button>
 ```
 
-Then state is correct.
-
-Because UI must update.
+Then state is correct. Because UI must update.
 
 ---
 
-# 8. When `useRef` is BETTER
+## 8. When `useRef` is BETTER
 
 If value is purely logical/runtime:
 
-```jsx
-prevent duplicate requests
-prevent race conditions
-track mounted state
-store websocket instance
-store timers
-```
+- prevent duplicate requests
+- prevent race conditions
+- track mounted state
+- store websocket instance
+- store timers
 
 Then ref avoids unnecessary renders.
 
----
+### Senior-Level Distinction
 
-# Senior-level distinction
-
-# `useState`
-
-Reactive value for rendering.
+| | `useState` | `useRef` |
+|---|---|---|
+| **Purpose** | Reactive value for rendering | Non-reactive mutable container |
 
 ---
 
-# `useRef`
-
-Non-reactive mutable container.
-
----
-
-# 9. Why senior engineers use refs for submission guards
+## 9. Why Senior Engineers Use Refs for Submission Guards
 
 Imagine:
 
@@ -278,60 +249,43 @@ Ref updates instantly synchronously:
 isSubmitting.current = true;
 ```
 
-No render involved.
-
-Immediate mutable lock.
+No render involved. Immediate mutable lock.
 
 ---
 
-# 10. Timeline Comparison
+## 10. Timeline Comparison
 
----
-
-# Using State
+### Using State
 
 ```jsx
 setIsSubmitting(true);
 ```
 
-Flow:
-
 ```txt
-schedule render
-React batches update
-next render happens
-state becomes true
+schedule render → React batches update → next render happens → state becomes true
 ```
 
+:::warning
 NOT immediate inside React lifecycle.
+:::
 
----
-
-# Using Ref
+### Using Ref
 
 ```jsx
 isSubmitting.current = true;
 ```
 
-Flow:
-
 ```txt
 value changes instantly
 ```
 
-No scheduling.
-
-No render.
-
-Immediate mutation.
+No scheduling. No render. Immediate mutation.
 
 ---
 
-# 11. Real-world example
+## 11. Real-World Example
 
----
-
-# BAD
+### ❌ BAD
 
 ```jsx
 const [loading, setLoading] = useState(false);
@@ -349,9 +303,7 @@ const handleClick = async () => {
 
 Rapid clicks MAY still sneak through in some edge timing scenarios.
 
----
-
-# STRONGER
+### ✅ STRONGER
 
 ```jsx
 const loadingRef = useRef(false);
@@ -371,13 +323,11 @@ Immediate synchronous lock.
 
 ---
 
-# 12. Best Production Pattern
+## 12. Best Production Pattern
 
 Actually combine BOTH.
 
----
-
-# Real Senior Pattern
+### Real Senior Pattern
 
 ```jsx
 const loadingRef = useRef(false);
@@ -398,22 +348,14 @@ const handleClick = async () => {
 };
 ```
 
----
-
-# Why BOTH?
-
-# Ref:
-
-- prevents race conditions
-- immediate lock
-
-# State:
-
-- updates UI
+:::tip[Why BOTH?]
+- **Ref:** prevents race conditions, immediate lock
+- **State:** updates UI
+:::
 
 ---
 
-# 13. Another important insight
+## 13. Another Important Insight
 
 Refs are NOT reactive.
 
@@ -429,7 +371,7 @@ But React UI doesn't care automatically.
 
 ---
 
-# 14. Why React allows mutable refs
+## 14. Why React Allows Mutable Refs
 
 Because some things fundamentally require mutation:
 
@@ -441,34 +383,26 @@ Because some things fundamentally require mutation:
 - animations
 - imperative APIs
 
+:::info
 Trying to force pure immutability there becomes awkward and inefficient.
+:::
 
 ---
 
-# 15. Senior-level mental model
+## 15. Senior-Level Mental Model
 
-# State = declarative world
-
-```txt
-UI should look like this
-```
+| State = Declarative World | Ref = Imperative World |
+|---|---|
+| "UI should look like this" | "Store this mutable thing somewhere" |
 
 ---
 
-# Ref = imperative world
+## 16. One Sentence Summary
 
-```txt
-store this mutable thing somewhere
-```
+:::note
+`useState` → reactive immutable render state
 
----
-
-# 16. One sentence summary
-
-`useState`
-→ reactive immutable render state
-
-`useRef`
-→ persistent mutable runtime storage
+`useRef` → persistent mutable runtime storage
 
 That distinction is foundational in advanced React.
+:::

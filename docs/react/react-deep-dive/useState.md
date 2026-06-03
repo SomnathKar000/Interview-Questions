@@ -142,7 +142,7 @@ const [theme, setTheme] = useState(() => {
 Without lazy init:
 
 - localStorage gets hit every render
-  :::
+:::
 
 ---
 

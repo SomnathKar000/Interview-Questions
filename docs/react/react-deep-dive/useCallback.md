@@ -1,7 +1,7 @@
 ---
 title: "useCallback - Deep Dive"
 sidebar_position: 7
-description: "Senior-level deep dive into useCallback – performance optimization, and production patterns."
+description: "Senior-level deep dive into useCallback — function reference stabilization, React.memo pairing, stale closures, and when NOT to memoize functions."
 ---
 
 # `useCallback` — Surface Level to Deep Dive
@@ -24,9 +24,9 @@ A huge amount of React codebases are over-memoized.
 
 ---
 
-# 1. Surface Level — What is `useCallback`?
+## 1. Surface Level — What is `useCallback`?
 
-```jsx id="l3s8mr"
+```jsx
 const memoizedFn = useCallback(() => {
   doSomething();
 }, [dependencies]);
@@ -37,11 +37,9 @@ React:
 - stores function reference
 - reuses same function until dependencies change
 
----
+### Without `useCallback`
 
-# Without `useCallback`
-
-```jsx id="8n8b8x"
+```jsx
 const handleClick = () => {
   console.log("clicked");
 };
@@ -49,11 +47,9 @@ const handleClick = () => {
 
 New function created every render.
 
----
+### With `useCallback`
 
-# With `useCallback`
-
-```jsx id="d6m9mz"
+```jsx
 const handleClick = useCallback(() => {
   console.log("clicked");
 }, []);
@@ -63,86 +59,57 @@ Same function reference reused.
 
 ---
 
-# 2. Important JavaScript Reality
+## 2. Important JavaScript Reality
 
 Functions are objects.
 
----
-
-# Example
-
-```js id="zpt7mh"
-() => {};
-```
-
-Every execution creates new reference.
-
----
-
-# Meaning:
-
-```js id="zz5k1z"
+```js
 (() => {}) === (() => {});
 ```
 
-is:
+is `false`.
 
-```txt id="85lb8i"
-false
-```
+Every execution creates new reference.
 
----
-
-# React cares about reference equality heavily.
+:::info
+React cares about reference equality heavily.
+:::
 
 ---
 
-# 3. Why Function References Matter
+## 3. Why Function References Matter
 
-Usually:
-they DON'T.
+Usually: they DON'T.
 
+:::important
 This is the first major senior-level insight.
+:::
 
----
-
-# Example
-
-```jsx id="wn5wr7"
+```jsx
 <button onClick={() => setCount(count + 1)}>
 ```
 
-Perfectly fine.
-
-No optimization needed.
+Perfectly fine. No optimization needed.
 
 ---
 
-# 4. When Function Identity Actually Matters
+## 4. When Function Identity Actually Matters
 
 Mainly in 3 situations:
 
----
-
-# A. `React.memo`
-
----
-
-# B. Dependency arrays
+| Situation | Why it matters |
+|---|---|
+| **A. `React.memo`** | Stable props prevent child re-renders |
+| **B. Dependency arrays** | Stable deps prevent effect re-runs |
+| **C. Expensive child renders** | Avoid unnecessary re-render cost |
 
 ---
 
-# C. Expensive child renders
+## 5. `React.memo` Problem
 
----
+### Parent
 
-# 5. `React.memo` Problem
-
----
-
-# Parent
-
-```jsx id="qjlwm0"
+```jsx
 function Parent() {
   const [count, setCount] = useState(0);
 
@@ -154,148 +121,91 @@ function Parent() {
 }
 ```
 
----
+### Child
 
-# Child
-
-```jsx id="9vjlwm"
+```jsx
 export default memo(Child);
 ```
 
-Still re-renders.
+Still re-renders. Why? New function reference every render.
 
-Why?
+### ✅ Solution
 
-Because:
-
-```txt id="uqljlwm"
-new function reference every render
-```
-
----
-
-# Solution
-
-```jsx id="8jlwmf"
+```jsx
 const handleClick = useCallback(() => {
   console.log("click");
 }, []);
 ```
 
-Now:
-
-- stable reference
-- memo child can skip render
+Now: stable reference → memo child can skip render.
 
 ---
 
-# 6. Important Mental Model
+## 6. Important Mental Model
 
-`useCallback` does NOT:
+:::info
+`useCallback` does NOT prevent function creation.
 
-- prevent function creation
+React still creates function during render. It simply returns cached previous version if deps unchanged.
+:::
 
-React still creates function during render.
+### Internal Approximation
 
-It simply:
-
-- returns cached previous version if deps unchanged
-
----
-
-# 7. Internal Approximation
-
-Roughly behaves like:
-
-```js id="jlwmic"
+```js
 if (depsChanged) {
   cache.fn = newFn;
 }
-
 return cache.fn;
 ```
 
 ---
 
-# 8. `useCallback` vs `useMemo`
+## 7. `useCallback` vs `useMemo`
 
----
+| | `useMemo` | `useCallback` |
+|---|---|---|
+| **Caches** | RESULT of function | FUNCTION ITSELF |
+| **Example** | `useMemo(() => compute(), [])` | `useCallback(() => {}, [])` |
 
-# `useMemo`
-
-Caches RESULT of function.
-
-```jsx id="fjlwmz"
-const value = useMemo(() => compute(), []);
-```
-
----
-
-# `useCallback`
-
-Caches FUNCTION ITSELF.
-
-```jsx id="f5jlwm"
-const fn = useCallback(() => {}, []);
-```
-
----
-
-# Important Connection
+### Important Connection
 
 This:
 
-```jsx id="jlwmko"
+```jsx
 useCallback(fn, deps);
 ```
 
 is essentially:
 
-```jsx id="jlwmll"
+```jsx
 useMemo(() => fn, deps);
 ```
 
 ---
 
-# 9. Dependency Arrays + useCallback
+## 8. Dependency Arrays + useCallback
 
 Huge topic.
 
----
+### Example
 
-# Example
-
-```jsx id="jlwmmz"
+```jsx
 const increment = useCallback(() => {
   setCount(count + 1);
 }, [count]);
 ```
 
-Depends on:
+Depends on `count` because closure captures it.
 
-```jsx id="jlwmn9"
-count;
-```
+Missing dependency → stale closure bug.
 
 ---
 
-# Why?
+## 9. Stale Closure Problem
 
-Because closure captures count.
+### ❌ BAD
 
-Missing dependency:
-
-- stale closure bug
-
----
-
-# 10. Stale Closure Problem
-
----
-
-# BAD
-
-```jsx id="o0jlwm"
+```jsx
 const increment = useCallback(() => {
   setCount(count + 1);
 }, []);
@@ -303,17 +213,15 @@ const increment = useCallback(() => {
 
 `count` frozen from first render.
 
----
+### ✅ Correct
 
-# Correct
-
-```jsx id="p3jlwm"
+```jsx
 }, [count])
 ```
 
 OR:
 
-```jsx id="r0jlwm"
+```jsx
 setCount((prev) => prev + 1);
 ```
 
@@ -321,15 +229,13 @@ then dependency may disappear.
 
 ---
 
-# 11. Functional Updates + useCallback
+## 10. Functional Updates + useCallback
 
 Very important optimization pattern.
 
----
+### ❌ Without functional update
 
-# Without functional update
-
-```jsx id="s6jlwm"
+```jsx
 const increment = useCallback(() => {
   setCount(count + 1);
 }, [count]);
@@ -337,36 +243,27 @@ const increment = useCallback(() => {
 
 Function recreated every count change.
 
----
+### ✅ Better
 
-# Better
-
-```jsx id="u0jlwm"
+```jsx
 const increment = useCallback(() => {
   setCount((prev) => prev + 1);
 }, []);
 ```
 
-Now:
-
-- stable forever
-- no stale closure
-
-Huge senior-level pattern.
+:::tip
+Now: stable forever, no stale closure. Huge senior-level pattern.
+:::
 
 ---
 
-# 12. Real Use Cases
+## 11. Real Use Cases
 
----
+### A. Stable handlers for memoized children
 
-# A. Stable handlers for memoized children
+### B. Event listeners
 
----
-
-# B. Event listeners
-
-```jsx id="w9jlwm"
+```jsx
 useEffect(() => {
   window.addEventListener("resize", handleResize);
 
@@ -378,65 +275,44 @@ useEffect(() => {
 
 Stable callback avoids unnecessary re-subscription.
 
----
+### C. Context optimization
 
-# C. Context optimization
+#### ❌ BAD
 
----
-
-# BAD
-
-```jsx id="x7jlwm"
+```jsx
 <AuthContext.Provider value={{ login }}>
 ```
 
 New function every render.
 
----
+#### ✅ Better
 
-# Better
-
-```jsx id="y2jlwm"
+```jsx
 const login = useCallback(() => {}, []);
 ```
 
-paired with:
-
-```jsx id="z1jlwm"
-useMemo();
-```
+paired with `useMemo()`.
 
 ---
 
-# 13. Most Common Beginner Mistake
+## 12. Most Common Beginner Mistake
 
-Wrapping EVERYTHING in `useCallback`.
+:::danger[Wrapping EVERYTHING in useCallback]
 
----
-
-# BAD
-
-```jsx id="a2jlwm"
+```jsx
 const onClick = useCallback(() => {
   console.log("click");
 }, []);
 ```
 
-for ordinary button.
+for ordinary button. **Pointless.**
 
-Pointless.
-
----
-
-# Why?
-
-Function creation itself is cheap.
-
-Memoization also has overhead.
+Function creation itself is cheap. Memoization also has overhead.
+:::
 
 ---
 
-# 14. useCallback Is NOT Free
+## 13. useCallback Is NOT Free
 
 Costs:
 
@@ -445,19 +321,17 @@ Costs:
 - complexity
 - cognitive load
 
+:::warning
 Overusing it can hurt performance.
+:::
 
 ---
 
-# 15. Another Huge Mistake
+## 14. Another Huge Mistake
 
 Using `useCallback` without memoized children.
 
----
-
-# Example
-
-```jsx id="b4jlwm"
+```jsx
 const fn = useCallback(() => {}, []);
 ```
 
@@ -471,38 +345,25 @@ Completely unnecessary.
 
 ---
 
-# 16. Real Performance Rule
+## 15. Real Performance Rule
 
-`useCallback` only matters when:
+:::important
+`useCallback` only matters when **reference equality matters**.
 
-- reference equality matters
-
-Otherwise:
-ignore it.
+Otherwise: ignore it.
+:::
 
 ---
 
-# 17. Event Handler Myth
+## 16. Event Handler Myth
 
 Huge misconception.
 
----
+Developers think: "new functions cause bad performance." Usually false.
 
-# Developers think:
+React apps naturally recreate functions constantly. That's normal.
 
-```txt id="c7jlwm"
-new functions cause bad performance
-```
-
-Usually false.
-
-React apps naturally recreate functions constantly.
-
-That's normal.
-
----
-
-# Real bottlenecks are usually:
+Real bottlenecks are usually:
 
 - unnecessary renders
 - huge trees
@@ -514,156 +375,91 @@ NOT function creation.
 
 ---
 
-# 18. useCallback + Effects
+## 17. useCallback + Effects
 
 Very important interaction.
 
----
+### ❌ Problem
 
-# Problem
-
-```jsx id="d8jlwm"
+```jsx
 const fetchData = () => {};
 ```
 
 inside component.
 
----
-
-# Effect
-
-```jsx id="e5jlwm"
+```jsx
 useEffect(() => {
   fetchData();
 }, [fetchData]);
 ```
 
-Runs every render.
+Runs every render because function reference changes.
 
-Because function reference changes.
+### Solutions
 
----
+#### A. Move function inside effect (BEST most of time)
 
-# Solutions
-
----
-
-# A. Move function inside effect
-
-BEST most of time.
-
-```jsx id="f1jlwm"
+```jsx
 useEffect(() => {
   const fetchData = async () => {};
 }, []);
 ```
 
----
-
-# B. useCallback
+#### B. useCallback
 
 Only if function needed elsewhere.
 
 ---
 
-# 19. React.memo + useCallback + useMemo Triangle
+## 18. React.memo + useCallback + useMemo Triangle
 
 Core React optimization triangle.
 
----
+| Tool | Purpose |
+|---|---|
+| `React.memo` | Skips child render if props stable |
+| `useMemo` | Keeps object/array values stable |
+| `useCallback` | Keeps function props stable |
 
-# `React.memo`
-
-Skips child render if props stable.
-
----
-
-# `useMemo`
-
-Keeps object/array values stable.
+Together: control render propagation.
 
 ---
 
-# `useCallback`
+## 19. Common Pitfalls
 
-Keeps function props stable.
+:::danger[Avoid these mistakes]
 
----
+**A. Missing dependencies** — Creates stale closures.
 
-# Together:
+**B. Overusing callbacks** — Adds complexity.
 
-control render propagation.
+**C. Assuming callbacks improve everything** — Often no measurable benefit.
 
----
+**D. Memoizing inline handlers unnecessarily** — Usually pointless.
 
-# 20. Common Pitfalls
-
----
-
-# A. Missing dependencies
-
-Creates stale closures.
+**E. Fighting ESLint dependencies incorrectly** — Leads to bugs.
+:::
 
 ---
 
-# B. Overusing callbacks
+## 20. Senior-Level Heuristic
 
-Adds complexity.
+:::tip[Use `useCallback` ONLY if]
 
----
+**A.** Passing function to memoized child
 
-# C. Assuming callbacks improve everything
+**B.** Function appears in dependency array
 
-Often no measurable benefit.
+**C.** Stable reference genuinely matters
 
----
-
-# D. Memoizing inline handlers unnecessarily
-
-Usually pointless.
+Otherwise: skip it.
+:::
 
 ---
 
-# E. Fighting ESLint dependencies incorrectly
+## 21. One of the Biggest React Truths
 
-Leads to bugs.
-
----
-
-# 21. Senior-Level Heuristic
-
-Use `useCallback` ONLY if:
-
----
-
-# A.
-
-Passing function to memoized child
-
----
-
-# B.
-
-Function appears in dependency array
-
----
-
-# C.
-
-Stable reference genuinely matters
-
----
-
-# Otherwise:
-
-skip it.
-
----
-
-# 22. One of the Biggest React Truths
-
-Most React optimization problems are:
-NOT solved by `useCallback`.
+Most React optimization problems are NOT solved by `useCallback`.
 
 Architecture matters far more:
 
@@ -674,7 +470,7 @@ Architecture matters far more:
 
 ---
 
-# 23. Advanced Insight — Stable APIs
+## 22. Advanced Insight — Stable APIs
 
 Libraries heavily use stable callbacks internally.
 
@@ -692,37 +488,27 @@ Stable references:
 
 ---
 
-# 24. Common Interview Questions
+## 23. Common Interview Questions
 
----
-
-# What does useCallback do?
+### What does useCallback do?
 
 Caches function reference between renders.
 
----
+### Difference between useMemo and useCallback?
 
-# Difference between useMemo and useCallback?
+`useMemo` caches value. `useCallback` caches function.
 
-`useMemo` caches value.
-`useCallback` caches function.
+### Does useCallback prevent function creation?
 
----
+No. It returns cached reference.
 
-# Does useCallback prevent function creation?
-
-No.
-It returns cached reference.
-
----
-
-# When should useCallback be used?
+### When should useCallback be used?
 
 When stable function identity matters.
 
 ---
 
-# 25. Final Senior-Level Insight
+## 24. Final Senior-Level Insight
 
 Most junior developers:
 
@@ -732,23 +518,22 @@ Most intermediate developers:
 
 - overuse `useCallback`
 
+:::note
 Senior engineers:
 
 - understand render economics deeply
 - optimize selectively
 - measure before optimizing
 - avoid premature memoization
+:::
+
+### One Sentence Summary
+
+`useCallback` is a function reference stabilization tool — NOT a general performance magic hook.
 
 ---
 
-# One Sentence Summary
-
-`useCallback` is a function reference stabilization tool —
-NOT a general performance magic hook.
-
----
-
-Useful references:
+**Useful references:**
 
 - [React Docs - useCallback](https://react.dev/reference/react/useCallback?utm_source=chatgpt.com)
 - [React Docs - memo](https://react.dev/reference/react/memo?utm_source=chatgpt.com)

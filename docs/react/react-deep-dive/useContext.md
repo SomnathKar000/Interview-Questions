@@ -1,16 +1,16 @@
 ---
 title: "useContext - Deep Dive"
 sidebar_position: 5
-description: "Senior-level deep dive into useContext – Provider, Consumer, performance, useMemo optimization, and production patterns."
+description: "Senior-level deep dive into useContext — Provider/Consumer model, performance pitfalls, context splitting, dependency injection, and production patterns."
 ---
 
 # `useContext` — Surface Level to Deep Dive
 
 Most developers learn `useContext` as:
 
-> “Avoid prop drilling.”
+> "Avoid prop drilling."
 
-That’s true — but incomplete.
+That's true — but incomplete.
 
 At senior level, `useContext` is really about:
 
@@ -28,87 +28,54 @@ Because misuse of Context is one of the most common React performance problems.
 
 ---
 
-# 1. Surface Level — What is `useContext`?
+## 1. Surface Level — What is `useContext`?
 
 React Context allows data sharing across component tree without passing props manually through every level.
 
----
+### Basic Example
 
-# Basic Example
+#### Create Context
 
----
-
-## Create Context
-
-```jsx id="f9n6m0"
+```jsx
 const ThemeContext = createContext();
 ```
 
----
+#### Provide Value
 
-## Provide Value
-
-```jsx id="ofz7s3"
+```jsx
 <ThemeContext.Provider value="dark">
   <App />
 </ThemeContext.Provider>
 ```
 
----
+#### Consume Value
 
-## Consume Value
-
-```jsx id="50p6hz"
+```jsx
 const theme = useContext(ThemeContext);
 ```
 
 ---
 
-# 2. The Problem Context Solves
+## 2. The Problem Context Solves
 
 Without Context:
 
-```txt id="d11d4m"
-App
- ↓
-Layout
- ↓
-Sidebar
- ↓
-Button
+```txt
+App → Layout → Sidebar → Button
 ```
 
-Passing props manually:
+Passing props manually through every layer is **prop drilling**.
 
-```jsx id="v5bhvm"
+```jsx
 <App theme="dark" />
+  ↓ <Layout theme={theme} />
+    ↓ <Sidebar theme={theme} />
+      ↓ <Button theme={theme} />
 ```
 
-↓
+### Context Removes Intermediate Passing
 
-```jsx id="vm65j0"
-<Layout theme={theme} />
-```
-
-↓
-
-```jsx id="6krr9f"
-<Sidebar theme={theme} />
-```
-
-↓
-
-```jsx id="4r1xqq"
-<Button theme={theme} />
-```
-
-This is prop drilling.
-
----
-
-# Context Removes Intermediate Passing
-
-```jsx id="7q3mnz"
+```jsx
 const theme = useContext(ThemeContext);
 ```
 
@@ -116,23 +83,17 @@ Any child can access it directly.
 
 ---
 
-# 3. Important Mental Model
+## 3. Important Mental Model
 
-Context is NOT:
+:::important
+Context is NOT "global state."
 
-> “global state”
-
-Context is:
-
-> “tree-scoped shared value”
+Context is "tree-scoped shared value."
 
 Very important distinction.
+:::
 
----
-
-# Example
-
-```jsx id="ahcyo0"
+```jsx
 <ThemeContext.Provider value="dark">
 ```
 
@@ -145,25 +106,21 @@ Outside tree:
 
 ---
 
-# 4. How Context Actually Works
+## 4. How Context Actually Works
 
 This is critical.
 
 When provider value changes:
 
-```jsx id="ww7i5o"
+```jsx
 <ThemeContext.Provider value={newValue}>
 ```
 
-ALL consumers re-render.
+**ALL consumers re-render.** Even if they only use tiny part.
 
-Even if they only use tiny part.
+### Example
 
----
-
-# Example
-
-```jsx id="5ajq5l"
+```jsx
 const value = {
   user,
   theme,
@@ -171,13 +128,7 @@ const value = {
 };
 ```
 
-Changing:
-
-```jsx id="j8wlhl"
-theme;
-```
-
-re-renders:
+Changing `theme` re-renders:
 
 - all user consumers
 - all notification consumers
@@ -185,45 +136,35 @@ re-renders:
 
 Because object reference changed.
 
----
-
-# 5. Senior-Level Understanding
-
-Context is fundamentally:
-
-> a broadcast mechanism
-
-NOT a selective subscription system.
+:::warning[Senior-Level Understanding]
+Context is fundamentally a **broadcast mechanism** — NOT a selective subscription system.
 
 This distinction matters massively for performance.
+:::
 
 ---
 
-# 6. Common Beginner Usage
+## 5. Common Beginner Usage
 
----
+### Theme Example
 
-# Theme Example
-
-```jsx id="jlwm7v"
+```jsx
 const ThemeContext = createContext();
 ```
 
 Provider:
 
-```jsx id="rj3c8k"
+```jsx
 <ThemeContext.Provider value="dark">
 ```
 
 Consumer:
 
-```jsx id="n0z7j0"
+```jsx
 const theme = useContext(ThemeContext);
 ```
 
-Perfectly fine.
-
-Because:
+Perfectly fine because:
 
 - low frequency updates
 - small value
@@ -231,87 +172,37 @@ Because:
 
 ---
 
-# 7. Real Senior-Level Use Cases
+## 6. Real Senior-Level Use Cases
+
+| Use Case | What It Provides |
+|---|---|
+| **Theme** | light/dark mode |
+| **Authentication** | current user, permissions, session |
+| **Localization** | language, translations |
+| **Dependency Injection** | API client, services |
+| **UI Systems** | modals, toasts, dialogs, notifications |
 
 ---
 
-# A. Theme
+## 7. Context DOES NOT Replace State Management
 
-```txt id="n6vh7o"
-light/dark mode
-```
-
----
-
-# B. Authentication
-
-```txt id="b4r3e7"
-current user
-permissions
-session
-```
-
----
-
-# C. Localization
-
-```txt id="bvd8di"
-language
-translations
-```
-
----
-
-# D. Dependency Injection
-
-Very important advanced use case.
-
----
-
-# Example
-
-```jsx id="z9rlcd"
-<ApiContext.Provider value={apiClient}>
-```
-
-Now app can access API layer anywhere.
-
----
-
-# E. UI Systems
-
-```txt id="0rzf0h"
-modals
-toasts
-dialogs
-notifications
-```
-
----
-
-# 8. Context DOES NOT Replace State Management Automatically
-
-Huge misconception.
-
+:::danger[Huge misconception]
 People often do:
 
-```jsx id="2zj8g6"
+```jsx
 const AppContext = createContext();
 ```
 
 then dump ENTIRE app state inside.
 
 This becomes performance disaster.
+:::
 
 ---
 
-# 9. Why Context Can Become Slow
+## 8. Why Context Can Become Slow
 
----
-
-# Example
-
-```jsx id="qjlwmj"
+```jsx
 const value = {
   user,
   cart,
@@ -326,59 +217,37 @@ Any change:
 - recreates object
 - re-renders all consumers
 
-Even unrelated ones.
+Even unrelated ones. This scales poorly.
 
 ---
 
-# This scales poorly.
+## 9. Important Rendering Behavior
 
----
-
-# 10. Important Rendering Behavior
-
----
-
-# Example
-
-```jsx id="jlwmr5"
+```jsx
 const user = useContext(AppContext);
 ```
 
-Consumer subscribes to entire context value.
+Consumer subscribes to **entire** context value. NOT specific property.
 
-NOT specific property.
-
-React does NOT track:
-
-```txt id="p1xw9e"
-which field you used
-```
-
-Only:
-
-- provider reference changed
+:::warning
+React does NOT track which field you used — only whether provider reference changed.
+:::
 
 ---
 
-# 11. Common Performance Mistake
+## 10. Common Performance Mistake
 
----
+### ❌ BAD
 
-# BAD
-
-```jsx id="0h4t0u"
+```jsx
 <AppContext.Provider value={{ user, setUser }}>
 ```
 
-New object created every render.
+New object created every render. Consumers re-render constantly.
 
-Consumers re-render constantly.
+### ✅ Better
 
----
-
-# Better
-
-```jsx id="x4f5bc"
+```jsx
 const value = useMemo(
   () => ({
     user,
@@ -388,31 +257,23 @@ const value = useMemo(
 );
 ```
 
----
-
-# Why?
-
+:::tip[Why?]
 Stabilizes reference.
+:::
 
 ---
 
-# 12. Splitting Contexts
+## 11. Splitting Contexts
 
 Massive senior-level optimization.
 
----
+### ❌ BAD
 
-# BAD
+Single giant `AppContext`.
 
-```txt id="8r4tkl"
-Single giant AppContext
-```
+### ✅ Better
 
----
-
-# Better
-
-```txt id="5vvxy0"
+```txt
 ThemeContext
 AuthContext
 NotificationContext
@@ -423,159 +284,72 @@ Now updates isolated.
 
 ---
 
-# 13. Context vs Props
+## 12. Context vs Props
 
-Important tradeoff.
+| | **Props** | **Context** |
+|---|---|---|
+| **Pros** | explicit, traceable, predictable, easy debugging | avoids drilling, centralized access |
+| **Cons** | prop drilling | hidden dependencies, broader re-renders, harder reuse |
 
----
-
-# Props
-
-Pros:
-
-- explicit
-- traceable
-- predictable
-- easy debugging
-
-Cons:
-
-- prop drilling
-
----
-
-# Context
-
-Pros:
-
-- avoids drilling
-- centralized access
-
-Cons:
-
-- hidden dependencies
-- broader re-renders
-- harder reuse
-
----
-
-# Senior Rule
-
+:::tip[Senior Rule]
 Prefer props unless:
 
 - data truly shared deeply
 - many intermediate layers
 - architectural value exists
+:::
 
 ---
 
-# 14. Context vs Redux/Zustand
+## 13. Context vs Redux/Zustand
 
 Very important distinction.
 
----
-
-# Context
-
-Distribution mechanism.
-
----
-
-# Redux/Zustand
-
-State management systems.
-
-With:
-
-- selective subscriptions
-- optimized updates
-- middleware
-- debugging
-- persistence
+| | **Context** | **Redux/Zustand** |
+|---|---|---|
+| **Type** | Distribution mechanism | State management systems |
+| **Re-renders** | All consumers re-render | Only affected components |
+| **Features** | — | Selective subscriptions, middleware, debugging, persistence |
 
 ---
 
-# Example
+## 14. Advanced Mental Model
 
-Redux:
+Context is closer to **dependency injection** than **state management**.
 
-```txt id="j4w7xb"
-only affected component re-renders
-```
-
-Context:
-
-```txt id="2l06x9"
-all consumers re-render
-```
-
----
-
-# 15. Advanced Mental Model
-
-Context is closer to:
-
-> dependency injection
-
-than:
-
-> state management
-
----
-
-# Example
-
-```jsx id="hpd40n"
+```jsx
 <AuthContext.Provider value={authService}>
 ```
 
-This injects dependency tree-wide.
-
-Very powerful architecture pattern.
+This injects dependency tree-wide. Very powerful architecture pattern.
 
 ---
 
-# 16. Default Value Behavior
+## 15. Default Value Behavior
 
----
-
-# Example
-
-```jsx id="w0w4pr"
+```jsx
 const ThemeContext = createContext("light");
 ```
 
 If no provider exists:
 
-```jsx id="v1md4k"
-useContext(ThemeContext);
+```jsx
+useContext(ThemeContext); // returns "light"
 ```
 
-returns:
-
-```txt id="rw9d4y"
-"light"
-```
-
----
-
-# Important
-
+:::info
 Default value is NOT dynamic fallback.
 
 It's only used if provider absent entirely.
+:::
 
 ---
 
-# 17. Nested Providers
+## 16. Nested Providers
 
 Contexts can override parents.
 
----
-
-# Example
-
-```jsx id="hn7m17"
+```jsx
 <ThemeContext.Provider value="dark">
   <Page />
 
@@ -585,62 +359,33 @@ Contexts can override parents.
 </ThemeContext.Provider>
 ```
 
-Modal gets:
-
-```txt id="3nixrt"
-light
-```
-
-Page gets:
-
-```txt id="s16y1r"
-dark
-```
+- Modal gets: `light`
+- Page gets: `dark`
 
 ---
 
-# 18. Common Pitfalls
+## 17. Common Pitfalls
 
----
+:::danger[Avoid these mistakes]
 
-# A. Giant Global Context
+**A. Giant Global Context** — Creates render storms.
 
-Creates render storms.
+**B. Context for Frequently Changing State** — Bad for animations, mouse position, typing, realtime updates.
 
----
+**C. Hidden Dependencies** — Component silently depends on provider. Harder reuse/testing.
 
-# B. Context for Frequently Changing State
+**D. Missing Provider**
 
-Bad for:
-
-- animations
-- mouse position
-- typing
-- realtime updates
-
----
-
-# C. Hidden Dependencies
-
-Component silently depends on provider.
-
-Harder reuse/testing.
-
----
-
-# D. Missing Provider
-
-```jsx id="rwmvsz"
+```jsx
 Cannot read property ...
 ```
 
 Common bug.
+:::
 
----
+### ✅ Safer Pattern
 
-# Safer Pattern
-
-```jsx id="r5lwzh"
+```jsx
 const context = useContext(AuthContext);
 
 if (!context) {
@@ -650,25 +395,21 @@ if (!context) {
 
 ---
 
-# 19. Custom Hooks + Context
+## 18. Custom Hooks + Context
 
 Senior pattern.
 
----
+### Instead of
 
-# Instead of
-
-```jsx id="h0ywmn"
+```jsx
 useContext(AuthContext);
 ```
 
-everywhere.
+everywhere...
 
----
+### ✅ Better
 
-# Better
-
-```jsx id="x2af1w"
+```jsx
 function useAuth() {
   return useContext(AuthContext);
 }
@@ -683,13 +424,11 @@ Benefits:
 
 ---
 
-# 20. Example Architecture
+## 19. Example Architecture
 
----
+### auth-context.js
 
-# auth-context.js
-
-```jsx id="qvsjj1"
+```jsx
 const AuthContext = createContext();
 
 export function AuthProvider({ children }) {
@@ -703,11 +442,9 @@ export function AuthProvider({ children }) {
 }
 ```
 
----
+### use-auth.js
 
-# use-auth.js
-
-```jsx id="0jkxg6"
+```jsx
 export function useAuth() {
   const context = useContext(AuthContext);
 
@@ -719,46 +456,36 @@ export function useAuth() {
 }
 ```
 
----
+### Usage
 
-# Usage
-
-```jsx id="mwgk2r"
+```jsx
 const { user } = useAuth();
 ```
 
 ---
 
-# 21. Senior-Level Performance Insight
+## 20. Senior-Level Performance Insight
 
+:::warning
 Context updates bypass:
 
-- React.memo
+- `React.memo`
 - memoized parents
 
-Consumers always re-render when context changes.
-
-Very important.
-
----
-
-# Example
+Consumers **always** re-render when context changes.
 
 Even this:
 
-```jsx id="fxqwdm"
+```jsx
 export default memo(Component);
 ```
 
-won't stop:
-
-```txt id="cpgptn"
-useContext-triggered re-render
-```
+won't stop `useContext`-triggered re-render.
+:::
 
 ---
 
-# 22. When NOT to Use Context
+## 21. When NOT to Use Context
 
 Avoid Context for:
 
@@ -768,81 +495,53 @@ Avoid Context for:
 - normalized entities
 - heavy realtime systems
 
-Use:
-
-- Zustand
-- Redux
-- Jotai
-- React Query
-
-instead.
+Use Zustand, Redux, Jotai, or React Query instead.
 
 ---
 
-# 23. Real Senior Architecture Strategy
+## 22. Real Senior Architecture Strategy
+
+| Use Context for | Use dedicated state managers for |
+|---|---|
+| stable global config | business state |
+| auth | realtime state |
+| themes | complex shared logic |
+| dependency injection | |
+| app services | |
 
 ---
 
-# Use Context for:
+## 23. One of the Most Important Insights
 
-- stable global config
-- auth
-- themes
-- dependency injection
-- app services
-
----
-
-# Use dedicated state managers for:
-
-- business state
-- realtime state
-- complex shared logic
-
----
-
-# 24. One of the Most Important Insights
-
-Context optimizes:
-
-> developer ergonomics
-
-NOT rendering performance.
+:::important
+Context optimizes **developer ergonomics** — NOT rendering performance.
 
 Huge distinction.
+:::
 
 ---
 
-# 25. Common Interview Questions
+## 24. Common Interview Questions
 
----
-
-# Why does context cause re-renders?
+### Why does context cause re-renders?
 
 Because provider value reference changed.
 
----
-
-# Why split contexts?
+### Why split contexts?
 
 To reduce unnecessary consumer updates.
 
----
-
-# Why isn't context a state manager?
+### Why isn't context a state manager?
 
 Because it lacks selective subscriptions and advanced update control.
 
----
+### Difference between props and context?
 
-# Difference between props and context?
-
-Props are explicit.
-Context is implicit tree-wide access.
+Props are explicit. Context is implicit tree-wide access.
 
 ---
 
-# 26. Final Senior-Level Insight
+## 25. Final Senior-Level Insight
 
 Most junior developers:
 
@@ -852,6 +551,7 @@ Most intermediate developers:
 
 - overuse Context as global state
 
+:::note
 Senior engineers:
 
 - use Context surgically
@@ -859,17 +559,15 @@ Senior engineers:
 - split contexts carefully
 - stabilize provider values
 - understand render propagation deeply
+:::
+
+### One Sentence Summary
+
+`useContext` is a dependency distribution mechanism — NOT a full state management solution.
 
 ---
 
-# One Sentence Summary
-
-`useContext` is a dependency distribution mechanism —
-NOT a full state management solution.
-
----
-
-Useful references:
+**Useful references:**
 
 - [React Docs - useContext](https://react.dev/reference/react/useContext?utm_source=chatgpt.com)
 - [React Docs - Passing Data Deeply with Context](https://react.dev/learn/passing-data-deeply-with-context?utm_source=chatgpt.com)
