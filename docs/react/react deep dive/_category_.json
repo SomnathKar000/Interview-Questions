@@ -1,0 +1,8 @@
+{
+  "label": "React Deep Dive",
+  "position": 2,
+  "link": {
+    "type": "generated-index",
+    "description": "React concepts, hooks, component lifecycle, and Redux Toolkit."
+  }
+}
