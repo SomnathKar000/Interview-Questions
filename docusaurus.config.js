@@ -161,6 +161,21 @@ const config = {
         theme: prismThemes.github,
         darkTheme: prismThemes.dracula,
       },
+      algolia: {
+        // The application ID provided by Algolia
+        appId: '8YM1TL49KL',
+
+        // Public API key: safe to commit (search-only, no write access)
+        apiKey: '789d8246251a73817bd38890521daef8',
+
+        indexName: 'interview-prep-hub',
+
+        // Optional: see https://docusaurus.io/docs/search#connecting-algolia
+        contextualSearch: true,
+
+        // Optional: search page path (default: /search)
+        searchPagePath: 'search',
+      },
     }),
 };
 
