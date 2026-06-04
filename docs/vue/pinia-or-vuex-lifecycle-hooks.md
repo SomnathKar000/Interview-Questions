@@ -8,7 +8,7 @@ These two topics are frequently asked in senior Vue interviews because they reve
 
 ---
 
-# Part 1: Pinia Deep Dive
+## Part 1: Pinia Deep Dive
 
 ---
 
@@ -57,7 +57,7 @@ Centralized state.
 
 ---
 
-# Pinia vs Vuex
+## Pinia vs Vuex
 
 Vuex:
 
@@ -98,7 +98,7 @@ No mutations.
 
 ---
 
-# Creating a Store
+## Creating a Store
 
 ```js
 import { defineStore } from "pinia";
@@ -126,7 +126,7 @@ store.increment();
 
 ---
 
-# State
+## State
 
 ```js
 state: () => ({
@@ -146,7 +146,7 @@ inside a composable.
 
 ---
 
-# Getters
+## Getters
 
 Equivalent to computed.
 
@@ -168,7 +168,7 @@ No parentheses.
 
 ---
 
-# Actions
+## Actions
 
 Equivalent to methods.
 
@@ -186,7 +186,7 @@ actions: {
 
 ---
 
-# Setup Store
+## Setup Store
 
 Senior teams often prefer this.
 
@@ -209,7 +209,7 @@ Feels like a composable.
 
 ---
 
-# Common Mistake
+## Common Mistake
 
 Destructuring:
 
@@ -235,7 +235,7 @@ const { user } = storeToRefs(store);
 
 ---
 
-# When NOT To Use Pinia
+## When NOT To Use Pinia
 
 Many developers overuse global state.
 
@@ -271,7 +271,7 @@ Feature Flags
 
 ---
 
-# Pinia Architecture (Senior)
+## Pinia Architecture (Senior)
 
 Bad:
 
@@ -310,7 +310,7 @@ async fetchUser() {
 
 ---
 
-# Pinia Reactivity
+## Pinia Reactivity
 
 Store state is reactive.
 
@@ -331,7 +331,7 @@ Same Vue reactivity system underneath.
 
 ---
 
-# Store Subscriptions
+## Store Subscriptions
 
 Listen to state changes.
 
@@ -349,7 +349,7 @@ Useful:
 
 ---
 
-# Store Patch
+## Store Patch
 
 Update multiple values.
 
@@ -364,7 +364,7 @@ Single update cycle.
 
 ---
 
-# Lifecycle Hooks Deep Dive
+## Lifecycle Hooks Deep Dive
 
 Most developers only know:
 
@@ -376,7 +376,7 @@ Senior developers understand exactly when every hook runs.
 
 ---
 
-# Component Lifecycle
+## Component Lifecycle
 
 ```text
 setup()
@@ -568,7 +568,7 @@ onUnmounted(() => {
 
 ---
 
-# Common Memory Leak
+## Common Memory Leak
 
 Bad:
 
@@ -600,7 +600,7 @@ onUnmounted(() => {
 
 ---
 
-# KeepAlive Lifecycle
+## KeepAlive Lifecycle
 
 Many seniors miss this.
 
@@ -652,7 +652,7 @@ Useful for:
 
 ---
 
-# Async Setup
+## Async Setup
 
 Vue 3 supports:
 
@@ -676,7 +676,7 @@ for loading states.
 
 ---
 
-# Lifecycle + Reactivity
+## Lifecycle + Reactivity
 
 Important concept.
 
@@ -722,7 +722,7 @@ updated
 
 ---
 
-# Senior-Level Interview Questions
+## Senior-Level Interview Questions
 
 ### Q1
 

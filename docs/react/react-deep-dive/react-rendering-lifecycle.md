@@ -1,10 +1,10 @@
 ---
 title: "React Rendering Lifecycle"
-sidebar_position: 12
+sidebar_position: 13
 description: "Senior-level deep dive into React Rendering Lifecycle — how React decides when to re-render, when to skip, and how to optimize it."
 ---
 
-# React Rendering Lifecycle — The Most Important React Concept
+## React Rendering Lifecycle — The Most Important React Concept
 
 If you understand:
 
@@ -22,7 +22,7 @@ Most React interview questions eventually reduce to:
 
 ---
 
-# 1. First Principle
+## 1. First Principle
 
 React components are functions.
 
@@ -38,7 +38,7 @@ React renders by **calling the function**.
 
 ---
 
-# Initial Render
+## Initial Render
 
 ```txt
 React
@@ -54,7 +54,7 @@ Update DOM
 
 ---
 
-# Re-render
+## Re-render
 
 Whenever React decides:
 
@@ -66,7 +66,7 @@ The component function executes again from top to bottom.
 
 ---
 
-# 2. What Causes a Render?
+## 2. What Causes a Render?
 
 There are only a few reasons.
 
@@ -118,7 +118,7 @@ Triggers render.
 
 ---
 
-# 3. What Does NOT Cause a Render?
+## 3. What Does NOT Cause a Render?
 
 Very common interview question.
 
@@ -156,7 +156,7 @@ Not a render trigger.
 
 ---
 
-# 4. Render ≠ DOM Update
+## 4. Render ≠ DOM Update
 
 Most developers confuse these.
 
@@ -204,7 +204,7 @@ No DOM update needed.
 
 ---
 
-# Render Happened
+## Render Happened
 
 DOM update didn't.
 
@@ -212,7 +212,7 @@ Huge distinction.
 
 ---
 
-# 5. React Render Phases
+## 5. React Render Phases
 
 Modern React has two major phases.
 
@@ -242,7 +242,7 @@ Effects Run
 
 ---
 
-# 6. Render Phase
+## 6. Render Phase
 
 During render React:
 
@@ -277,13 +277,13 @@ JSX created
 
 ---
 
-# Important Rule
+## Important Rule
 
 Render phase must stay pure.
 
 ---
 
-# Bad
+## Bad
 
 ```jsx
 function App() {
@@ -297,7 +297,7 @@ Wrong.
 
 ---
 
-# Good
+## Good
 
 ```jsx
 useEffect(() => {
@@ -307,7 +307,7 @@ useEffect(() => {
 
 ---
 
-# 7. Commit Phase
+## 7. Commit Phase
 
 After React finishes rendering:
 
@@ -333,7 +333,7 @@ DOM changes happen here.
 
 ---
 
-# 8. Effect Phase
+## 8. Effect Phase
 
 After commit:
 
@@ -371,7 +371,7 @@ Because DOM already exists.
 
 ---
 
-# 9. Complete Lifecycle Example
+## 9. Complete Lifecycle Example
 
 ```jsx
 function Counter() {
@@ -415,7 +415,7 @@ effect
 
 ---
 
-# 10. Mount vs Update vs Unmount
+## 10. Mount vs Update vs Unmount
 
 ---
 
@@ -449,7 +449,7 @@ Destroy component
 
 ---
 
-# Example
+## Example
 
 ```jsx
 {
@@ -475,7 +475,7 @@ Unmount Modal
 
 ---
 
-# 11. Effect Cleanup Lifecycle
+## 11. Effect Cleanup Lifecycle
 
 ```jsx
 useEffect(() => {
@@ -509,7 +509,7 @@ unsubscribe
 
 ---
 
-# 12. Component Tree Rendering
+## 12. Component Tree Rendering
 
 Suppose:
 
@@ -537,13 +537,13 @@ By default.
 
 ---
 
-# Why React.memo Exists
+## Why React.memo Exists
 
 To stop unnecessary child renders.
 
 ---
 
-# Without Memo
+## Without Memo
 
 ```txt
 App render
@@ -553,7 +553,7 @@ UserCard render
 
 ---
 
-# With Memo
+## With Memo
 
 ```txt
 App render
@@ -565,7 +565,7 @@ Skip UserCard
 
 ---
 
-# 13. State as Snapshot
+## 13. State as Snapshot
 
 One of React's most important ideas.
 
@@ -607,7 +607,7 @@ Captures count from the render that created it.
 
 ---
 
-# 14. Batching
+## 14. Batching
 
 React groups updates.
 
@@ -637,7 +637,7 @@ React 18 expanded batching further.
 
 ---
 
-# 15. Strict Mode Double Render
+## 15. Strict Mode Double Render
 
 Development only.
 
@@ -668,7 +668,7 @@ Not a production behavior.
 
 ---
 
-# 16. Reconciliation
+## 16. Reconciliation
 
 After render React compares:
 
@@ -701,13 +701,13 @@ Not entire page.
 
 ---
 
-# 17. Render Triggers vs Render Work
+## 17. Render Triggers vs Render Work
 
 Senior engineers distinguish:
 
 ---
 
-# Trigger
+## Trigger
 
 ```jsx
 setCount();
@@ -717,7 +717,7 @@ caused render.
 
 ---
 
-# Work
+## Work
 
 ```jsx
 items.filter(...)
@@ -734,7 +734,7 @@ Not render triggers.
 
 ---
 
-# 18. Complete Flow
+## 18. Complete Flow
 
 Imagine:
 
@@ -766,7 +766,7 @@ That is the full lifecycle.
 
 ---
 
-# 19. Most Common Misconceptions
+## 19. Most Common Misconceptions
 
 ---
 
@@ -808,7 +808,7 @@ They schedule renders.
 
 ---
 
-# 20. Senior-Level Mental Model
+## 20. Senior-Level Mental Model
 
 Think of React as:
 
@@ -841,7 +841,7 @@ Every hook you've learned fits somewhere in this flow:
 
 ---
 
-# Interview-Level Summary
+## Interview-Level Summary
 
 If asked:
 

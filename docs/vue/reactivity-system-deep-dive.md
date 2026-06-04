@@ -26,7 +26,7 @@ But senior engineers understand:
 
 ---
 
-# The Core Idea
+## The Core Idea
 
 Vue needs to answer two questions:
 
@@ -58,7 +58,7 @@ This is the entire reactivity system.
 
 ---
 
-# Vue 2 vs Vue 3
+## Vue 2 vs Vue 3
 
 ## Vue 2
 
@@ -122,7 +122,7 @@ Much more powerful.
 
 ---
 
-# Step 1: Dependency Tracking
+## Step 1: Dependency Tracking
 
 Suppose:
 
@@ -170,7 +170,7 @@ WeakMap
 
 ---
 
-# Step 2: Track
+## Step 2: Track
 
 When:
 
@@ -211,7 +211,7 @@ Dependency recorded.
 
 ---
 
-# Step 3: Trigger
+## Step 3: Trigger
 
 Now:
 
@@ -253,7 +253,7 @@ automatically.
 
 ---
 
-# Simplified Vue Reactivity
+## Simplified Vue Reactivity
 
 You can build a tiny version.
 
@@ -375,7 +375,7 @@ Reactive system achieved.
 
 ---
 
-# How ref Works
+## How ref Works
 
 Many developers think:
 
@@ -426,7 +426,7 @@ function ref(initialValue) {
 
 ---
 
-# Why .value Exists
+## Why .value Exists
 
 JavaScript cannot intercept:
 
@@ -448,7 +448,7 @@ so Vue can intercept access.
 
 ---
 
-# Why Destructuring Breaks Reactivity
+## Why Destructuring Breaks Reactivity
 
 Consider:
 
@@ -500,7 +500,7 @@ Reactivity lost.
 
 ---
 
-# Fix: toRefs()
+## Fix: toRefs()
 
 ```js
 const { name } = toRefs(user);
@@ -522,7 +522,7 @@ Reactivity preserved.
 
 ---
 
-# Computed Internals
+## Computed Internals
 
 Example:
 
@@ -596,7 +596,7 @@ Next access recalculates.
 
 ---
 
-# Why Computed Is Faster Than Methods
+## Why Computed Is Faster Than Methods
 
 Method:
 
@@ -630,7 +630,7 @@ Returns cache.
 
 ---
 
-# Watch Internals
+## Watch Internals
 
 Watch is basically:
 
@@ -661,7 +661,7 @@ Vue:
 
 ---
 
-# Scheduler
+## Scheduler
 
 Important senior concept.
 
@@ -743,7 +743,7 @@ Now DOM updated.
 
 ---
 
-# Effect Scope
+## Effect Scope
 
 Used heavily in composables.
 
@@ -770,7 +770,7 @@ Very useful in advanced composables.
 
 ---
 
-# The Most Important Mental Model
+## The Most Important Mental Model
 
 Think of Vue as building a dependency graph.
 

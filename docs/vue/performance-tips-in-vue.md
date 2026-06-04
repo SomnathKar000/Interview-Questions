@@ -19,7 +19,7 @@ Most Vue performance problems come from:
 
 ---
 
-# 1. Understand What Causes a Re-render
+## 1. Understand What Causes a Re-render
 
 Consider:
 
@@ -70,7 +70,7 @@ Never optimize blindly.
 
 ---
 
-# 2. Computed vs Methods
+## 2. Computed vs Methods
 
 Bad:
 
@@ -136,7 +136,7 @@ until cart changes.
 
 ---
 
-# 3. Avoid Unnecessary Reactive Data
+## 3. Avoid Unnecessary Reactive Data
 
 Bad:
 
@@ -173,7 +173,7 @@ when deep tracking isn't needed.
 
 ---
 
-# 4. Use shallowRef for Large Objects
+## 4. Use shallowRef for Large Objects
 
 Very common senior optimization.
 
@@ -224,7 +224,7 @@ Useful for:
 
 ---
 
-# 5. markRaw()
+## 5. markRaw()
 
 Tell Vue:
 
@@ -252,7 +252,7 @@ No reactivity overhead
 
 ---
 
-# 6. Virtualize Large Lists
+## 6. Virtualize Large Lists
 
 Most common production issue.
 
@@ -303,7 +303,7 @@ Huge improvement.
 
 ---
 
-# 7. Avoid Deep Watchers
+## 7. Avoid Deep Watchers
 
 Bad:
 
@@ -347,7 +347,7 @@ Watch specific properties.
 
 ---
 
-# 8. Lazy Load Routes
+## 8. Lazy Load Routes
 
 Bad:
 
@@ -382,7 +382,7 @@ Initial JS becomes much smaller.
 
 ---
 
-# 9. Async Components
+## 9. Async Components
 
 Heavy components:
 
@@ -411,7 +411,7 @@ Useful for:
 
 ---
 
-# 10. v-if vs v-show
+## 10. v-if vs v-show
 
 Interview favorite.
 
@@ -479,7 +479,7 @@ Examples:
 
 ---
 
-# 11. Stable Keys
+## 11. Stable Keys
 
 Bad:
 
@@ -518,7 +518,7 @@ Stable identity.
 
 ---
 
-# 12. Avoid Reactive Derived State
+## 12. Avoid Reactive Derived State
 
 Bad:
 
@@ -542,7 +542,7 @@ const fullName = computed(() => `${firstName.value} ${lastName.value}`);
 
 ---
 
-# 13. Pinia Performance
+## 13. Pinia Performance
 
 Common mistake.
 
@@ -578,7 +578,7 @@ on large stores.
 
 ---
 
-# 14. Debounce Expensive Operations
+## 14. Debounce Expensive Operations
 
 Bad:
 
@@ -618,7 +618,7 @@ watch(
 
 ---
 
-# 15. Clean Up Side Effects
+## 15. Clean Up Side Effects
 
 Memory leaks eventually become performance problems.
 
@@ -650,7 +650,7 @@ onUnmounted(() => {
 
 ---
 
-# 16. Use Suspense for Heavy Async Components
+## 16. Use Suspense for Heavy Async Components
 
 ```vue
 <Suspense>
@@ -666,7 +666,7 @@ Improves perceived performance.
 
 ---
 
-# 17. Reduce Reactive Scope
+## 17. Reduce Reactive Scope
 
 Bad:
 
@@ -695,7 +695,7 @@ Smaller dependency graphs.
 
 ---
 
-# 18. Avoid Creating Functions in Templates
+## 18. Avoid Creating Functions in Templates
 
 Bad:
 
@@ -725,7 +725,7 @@ const deleteUser = (id) => {};
 
 ---
 
-# 19. Use `v-memo` (Vue 3.2+)
+## 19. Use `v-memo` (Vue 3.2+)
 
 Rare but useful.
 
@@ -747,7 +747,7 @@ Dashboards
 
 ---
 
-# 20. Bundle Size Optimization
+## 20. Bundle Size Optimization
 
 Biggest real-world performance gain.
 
@@ -787,7 +787,7 @@ import debounce from "lodash/debounce";
 
 ---
 
-# Performance Mindset of Senior Vue Engineers
+## Performance Mindset of Senior Vue Engineers
 
 When debugging slowness, ask:
 

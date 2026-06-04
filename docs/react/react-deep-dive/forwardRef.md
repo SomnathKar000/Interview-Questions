@@ -1,6 +1,6 @@
 ---
 title: "forwardRef - Deep Dive"
-sidebar_position: 9
+sidebar_position: 10
 description: "Senior-level deep dive into forwardRef — ref forwarding, imperative handling, component composition, and when to avoid it."
 ---
 
@@ -20,7 +20,7 @@ The answer gets to how React treats refs internally.
 
 ---
 
-# 1. The Problem `forwardRef` Solves
+## 1. The Problem `forwardRef` Solves
 
 Consider:
 
@@ -50,7 +50,7 @@ It doesn't.
 
 ---
 
-# Why?
+## Why?
 
 Because:
 
@@ -71,7 +71,7 @@ They are not passed into component props.
 
 ---
 
-# Example
+## Example
 
 ```jsx id="7"
 function Input(props) {
@@ -93,13 +93,13 @@ props.ref;
 
 ---
 
-# 2. What forwardRef Does
+## 2. What forwardRef Does
 
 It allows a component to receive a ref and forward it somewhere else.
 
 ---
 
-# Without forwardRef
+## Without forwardRef
 
 ```jsx id="10"
 <Input ref={inputRef} />
@@ -109,7 +109,7 @@ It allows a component to receive a ref and forward it somewhere else.
 
 ---
 
-# With forwardRef
+## With forwardRef
 
 ```jsx id="11"
 const Input = forwardRef((props, ref) => {
@@ -127,7 +127,7 @@ works.
 
 ---
 
-# React Flow
+## React Flow
 
 ```txt id="13"
 Parent
@@ -141,7 +141,7 @@ input DOM node
 
 ---
 
-# 3. Complete Example
+## 3. Complete Example
 
 ---
 
@@ -187,7 +187,7 @@ focuses input.
 
 ---
 
-# 4. Mental Model
+## 4. Mental Model
 
 Without forwardRef:
 
@@ -219,7 +219,7 @@ Ref reaches DOM node.
 
 ---
 
-# 5. Why React Needs This
+## 5. Why React Needs This
 
 React wants components to encapsulate implementation details.
 
@@ -245,11 +245,11 @@ Using forwardRef intentionally exposes internal element.
 
 ---
 
-# 6. Real-World Use Cases
+## 6. Real-World Use Cases
 
 ---
 
-# A. Focus Management
+## A. Focus Management
 
 Very common.
 
@@ -259,7 +259,7 @@ inputRef.current.focus();
 
 ---
 
-# B. Text Selection
+## B. Text Selection
 
 ```jsx id="22"
 inputRef.current.select();
@@ -267,7 +267,7 @@ inputRef.current.select();
 
 ---
 
-# C. Scrolling
+## C. Scrolling
 
 ```jsx id="23"
 elementRef.current.scrollIntoView();
@@ -275,7 +275,7 @@ elementRef.current.scrollIntoView();
 
 ---
 
-# D. Measuring Dimensions
+## D. Measuring Dimensions
 
 ```jsx id="24"
 elementRef.current.offsetWidth;
@@ -283,7 +283,7 @@ elementRef.current.offsetWidth;
 
 ---
 
-# E. Integrating Third-Party Libraries
+## E. Integrating Third-Party Libraries
 
 ```txt id="25"
 Charts
@@ -297,7 +297,7 @@ Need DOM access.
 
 ---
 
-# 7. Common UI Library Example
+## 7. Common UI Library Example
 
 Imagine:
 
@@ -329,7 +329,7 @@ Now works.
 
 ---
 
-# 8. Passing Props Normally
+## 8. Passing Props Normally
 
 forwardRef doesn't change props.
 
@@ -356,7 +356,7 @@ Works fine.
 
 ---
 
-# 9. Multiple Internal Elements
+## 9. Multiple Internal Elements
 
 Interesting situation.
 
@@ -387,11 +387,11 @@ because you attached it there.
 
 ---
 
-# 10. Ref Forwarding Through Multiple Layers
+## 10. Ref Forwarding Through Multiple Layers
 
 ---
 
-# Component Tree
+## Component Tree
 
 ```txt id="33"
 App
@@ -431,7 +431,7 @@ Now reaches DOM node.
 
 ---
 
-# 11. forwardRef + useImperativeHandle
+## 11. forwardRef + useImperativeHandle
 
 This is where things get really interesting.
 
@@ -513,7 +513,7 @@ unless exposed.
 
 ---
 
-# Senior Insight
+## Senior Insight
 
 This creates a controlled public API.
 
@@ -521,7 +521,7 @@ Very useful for reusable components.
 
 ---
 
-# 12. Common Pitfalls
+## 12. Common Pitfalls
 
 ---
 
@@ -559,7 +559,7 @@ Sometimes useImperativeHandle is safer.
 
 ---
 
-# 13. React 19 Note
+## 13. React 19 Note
 
 React 19 introduces:
 
@@ -581,7 +581,7 @@ So understanding it remains important.
 
 ---
 
-# 14. Common Interview Questions
+## 14. Common Interview Questions
 
 ### Why doesn't ref work on functional components?
 
@@ -617,7 +617,7 @@ To expose controlled methods instead of full DOM nodes.
 
 ---
 
-# 15. Real Senior-Level Use Cases
+## 15. Real Senior-Level Use Cases
 
 You'll most commonly see `forwardRef` in:
 
@@ -638,7 +638,7 @@ Examples:
 
 ---
 
-# Final Mental Model
+## Final Mental Model
 
 Think of refs like a tunnel.
 
@@ -668,7 +668,7 @@ The tunnel continues through the component.
 
 ---
 
-# Quick Rule of Thumb
+## Quick Rule of Thumb
 
 Use `forwardRef` when:
 

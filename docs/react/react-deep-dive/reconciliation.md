@@ -1,10 +1,10 @@
 ---
 title: "Reconciliation"
-sidebar_position: 13
-description: "Senior-level deep dive into React Reconciliation — how React decides when to re-render, when to skip, and how to optimize it."
+sidebar_position: 14
+description: "Senior-level deep dive into React Reconciliation — diffing algorithm, keys, Virtual DOM, and state preservation rules."
 ---
 
-# Reconciliation — The Heart of React Rendering
+## Reconciliation — The Heart of React Rendering
 
 If rendering lifecycle answers:
 
@@ -24,7 +24,7 @@ This is one of the most important React internals concepts because it explains:
 
 ---
 
-# 1. What is Reconciliation?
+## 1. What is Reconciliation?
 
 Reconciliation is the process where React compares:
 
@@ -74,7 +74,7 @@ Not the entire page.
 
 ---
 
-# 2. Why Reconciliation Exists
+## 2. Why Reconciliation Exists
 
 Imagine React did:
 
@@ -97,7 +97,7 @@ to find minimal changes.
 
 ---
 
-# 3. Render vs Reconciliation
+## 3. Render vs Reconciliation
 
 Many developers mix these up.
 
@@ -149,7 +149,7 @@ Commit
 
 ---
 
-# 4. Virtual DOM
+## 4. Virtual DOM
 
 React doesn't compare real DOM directly.
 
@@ -194,7 +194,7 @@ React compares trees.
 
 ---
 
-# 5. Diffing Algorithm Assumptions
+## 5. Diffing Algorithm Assumptions
 
 React's reconciliation relies on two assumptions.
 
@@ -243,7 +243,7 @@ More on this later.
 
 ---
 
-# 6. Same Type Elements
+## 6. Same Type Elements
 
 Example:
 
@@ -283,7 +283,7 @@ Cheap update.
 
 ---
 
-# 7. Different Type Elements
+## 7. Different Type Elements
 
 ---
 
@@ -320,7 +320,7 @@ Entire subtree replaced.
 
 ---
 
-# 8. Component Reconciliation
+## 8. Component Reconciliation
 
 ---
 
@@ -354,7 +354,7 @@ stays alive.
 
 ---
 
-# 9. Component Type Change
+## 9. Component Type Change
 
 ---
 
@@ -389,7 +389,7 @@ State lost.
 
 ---
 
-# 10. State Preservation Rule
+## 10. State Preservation Rule
 
 One of React's most important rules:
 
@@ -425,7 +425,7 @@ State reset.
 
 ---
 
-# 11. The Famous Key Prop
+## 11. The Famous Key Prop
 
 This is where reconciliation becomes critical.
 
@@ -447,7 +447,7 @@ to identify children.
 
 ---
 
-# Why?
+## Why?
 
 Without keys:
 
@@ -455,7 +455,7 @@ React compares by position.
 
 ---
 
-# Example
+## Example
 
 Old:
 
@@ -490,7 +490,7 @@ Many updates.
 
 ---
 
-# With Keys
+## With Keys
 
 Old:
 
@@ -524,7 +524,7 @@ Much cheaper.
 
 ---
 
-# 12. Why Index Keys Are Dangerous
+## 12. Why Index Keys Are Dangerous
 
 Common interview question.
 
@@ -580,7 +580,7 @@ Use stable IDs.
 
 ---
 
-# 13. React.memo and Reconciliation
+## 13. React.memo and Reconciliation
 
 Memo affects reconciliation.
 
@@ -612,7 +612,7 @@ Less reconciliation work.
 
 ---
 
-# 14. Reconciliation and State Reset
+## 14. Reconciliation and State Reset
 
 Example:
 
@@ -653,7 +653,7 @@ This is a powerful pattern.
 
 ---
 
-# Example
+## Example
 
 Reset form:
 
@@ -669,7 +669,7 @@ Fresh form state
 
 ---
 
-# 15. List Reordering Example
+## 15. List Reordering Example
 
 Imagine:
 
@@ -709,7 +709,7 @@ instead of destroying everything.
 
 ---
 
-# 16. Reconciliation Cost
+## 16. Reconciliation Cost
 
 React's diffing is efficient because:
 
@@ -735,7 +735,7 @@ for most practical cases.
 
 ---
 
-# 17. Common Misconceptions
+## 17. Common Misconceptions
 
 ---
 
@@ -769,7 +769,7 @@ Keys also preserve correct state association.
 
 ---
 
-# 18. Real Interview Questions
+## 18. Real Interview Questions
 
 ### What is reconciliation?
 
@@ -801,7 +801,7 @@ Because React treats it as a completely new component.
 
 ---
 
-# 19. Senior-Level Mental Model
+## 19. Senior-Level Mental Model
 
 Think of React like this:
 
@@ -831,13 +831,13 @@ for every node in the UI tree.
 
 ---
 
-# 20. One Sentence Summary
+## 20. One Sentence Summary
 
 **Reconciliation is React's diffing process that compares the previous and next UI trees to determine the smallest set of updates needed while preserving component state whenever possible.**
 
 ---
 
-# Visual Summary
+## Visual Summary
 
 ```txt
 setState()

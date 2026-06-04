@@ -118,6 +118,17 @@ const config = {
           },
           {
             type: 'dropdown',
+            label: 'Vue',
+            position: 'left',
+            items: [
+              { label: 'Composition API',          to: '/docs/vue/composition-api' },
+              { label: 'Reactivity Deep Dive',     to: '/docs/vue/reactivity-system-deep-dive' },
+              { label: 'Pinia & Lifecycle Hooks',   to: '/docs/vue/pinia-or-vuex-lifecycle-hooks' },
+              { label: 'Performance Tips',          to: '/docs/vue/performance-tips-in-vue' },
+            ],
+          },
+          {
+            type: 'dropdown',
             label: 'Backend',
             position: 'left',
             items: [

@@ -1,7 +1,7 @@
 ---
-title: "forwardRef - Deep Dive"
-sidebar_position: 10
-description: "Senior-level deep dive into forwardRef — ref forwarding, imperative handling, component composition, and when to avoid it."
+title: "useImperativeHandle - Deep Dive"
+sidebar_position: 11
+description: "Senior-level deep dive into useImperativeHandle — controlled imperative APIs, public method exposure, and encapsulation patterns."
 ---
 
 # `useImperativeHandle` — Surface Level to Senior-Level Understanding
@@ -27,7 +27,7 @@ This is primarily used in:
 
 ---
 
-# 1. The Problem It Solves
+## 1. The Problem It Solves
 
 Suppose you have:
 
@@ -88,7 +88,7 @@ That's where `useImperativeHandle` comes in.
 
 ---
 
-# 2. Basic Syntax
+## 2. Basic Syntax
 
 ```jsx id="7"
 useImperativeHandle(
@@ -104,7 +104,7 @@ useImperativeHandle(
 
 ---
 
-# Important
+## Important
 
 It works together with:
 
@@ -116,7 +116,7 @@ Without `forwardRef`, it won't work.
 
 ---
 
-# 3. First Example
+## 3. First Example
 
 ---
 
@@ -178,7 +178,7 @@ Because exposed object is:
 
 ---
 
-# 4. Mental Model
+## 4. Mental Model
 
 Without useImperativeHandle:
 
@@ -202,7 +202,7 @@ DOM Node Hidden
 
 ---
 
-# 5. Why This Is Useful
+## 5. Why This Is Useful
 
 Imagine building a reusable component.
 
@@ -237,7 +237,7 @@ editorRef.current.insertText();
 
 ---
 
-# 6. Real Input Example
+## 6. Real Input Example
 
 ---
 
@@ -298,7 +298,7 @@ remove
 
 ---
 
-# 7. Real Modal Example
+## 7. Real Modal Example
 
 Very common interview example.
 
@@ -356,7 +356,7 @@ This is a classic use case.
 
 ---
 
-# 8. Real Video Player Example
+## 8. Real Video Player Example
 
 ---
 
@@ -396,7 +396,7 @@ Only public API.
 
 ---
 
-# 9. Why Not Just Expose DOM Node?
+## 9. Why Not Just Expose DOM Node?
 
 You could.
 
@@ -443,7 +443,7 @@ Implementation can change.
 
 ---
 
-# 10. Dependency Array
+## 10. Dependency Array
 
 Exactly like:
 
@@ -470,7 +470,7 @@ React updates exposed object when dependencies change.
 
 ---
 
-# 11. Common Beginner Mistake
+## 11. Common Beginner Mistake
 
 ---
 
@@ -500,7 +500,7 @@ Not implementation.
 
 ---
 
-# Senior Design Principle
+## Senior Design Principle
 
 Expose:
 
@@ -516,7 +516,7 @@ HOW component works internally
 
 ---
 
-# 12. Common Pitfalls
+## 12. Common Pitfalls
 
 ---
 
@@ -566,11 +566,11 @@ Imperative APIs should be exceptions.
 
 ---
 
-# 13. Props vs useImperativeHandle
+## 13. Props vs useImperativeHandle
 
 ---
 
-# Declarative
+## Declarative
 
 ```jsx id="44"
 <Modal open={isOpen} />
@@ -580,7 +580,7 @@ React-friendly.
 
 ---
 
-# Imperative
+## Imperative
 
 ```jsx id="45"
 modalRef.current.open();
@@ -599,7 +599,7 @@ Imperative only when needed
 
 ---
 
-# 14. Real Library Examples
+## 14. Real Library Examples
 
 You'll see useImperativeHandle in:
 
@@ -647,7 +647,7 @@ input.clear();
 
 ---
 
-# 15. Interview Questions
+## 15. Interview Questions
 
 ---
 
@@ -675,7 +675,7 @@ Creates tighter coupling between parent and child.
 
 ---
 
-# 16. Senior-Level Insight
+## 16. Senior-Level Insight
 
 Think of it like a class:
 
@@ -708,7 +708,7 @@ class Editor {
 
 ---
 
-# Final Mental Model
+## Final Mental Model
 
 Without `useImperativeHandle`:
 
@@ -736,7 +736,7 @@ Parent only sees what you choose to expose.
 
 ---
 
-# When Should You Use It?
+## When Should You Use It?
 
 Use it when:
 

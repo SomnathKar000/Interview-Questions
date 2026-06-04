@@ -1,7 +1,7 @@
 ---
 title: "React.memo - Deep Dive"
-sidebar_position: 8
-description: "Senior-level deep dive into useMemo — memoized values, referential equality, performance optimization, and when NOT to memoize."
+sidebar_position: 9
+description: "Senior-level deep dive into React.memo — component memoization, referential equality, custom comparison, and when NOT to memo."
 ---
 
 # `React.memo` — Surface Level to Senior-Level Understanding
@@ -20,266 +20,113 @@ This distinction is extremely important.
 
 ---
 
-# 1. What is React.memo?
+## 1. What is React.memo?
 
 `React.memo` is a Higher Order Component (HOC).
 
-```jsx id="1"
+```jsx
 const MemoizedComponent = React.memo(Component);
 ```
 
 or
 
-```jsx id="2"
+```jsx
 export default React.memo(MyComponent);
 ```
 
----
+### Basic Example
 
-# Basic Example
-
-```jsx id="3"
+```jsx
 function Child({ name }) {
   console.log("Child Render");
-
   return <div>{name}</div>;
 }
 
 export default React.memo(Child);
 ```
 
----
+### Parent
 
-# Parent
-
-```jsx id="4"
+```jsx
 function Parent() {
   const [count, setCount] = useState(0);
 
   return (
     <>
       <button onClick={() => setCount(count + 1)}>Increment</button>
-
       <Child name="Somnath" />
     </>
   );
 }
 ```
 
----
+Without memo → Child renders every time parent renders.
 
-Without memo:
-
-```txt
-Parent Render
-Child Render
-
-Parent Render
-Child Render
-
-Parent Render
-Child Render
-```
+With memo → Child skipped because props didn't change.
 
 ---
 
-With memo:
+## 2. Important Mental Model
 
-```txt
-Parent Render
-Child Render
-
-Parent Render
-
-Parent Render
-```
-
-Child skipped because props didn't change.
-
----
-
-# 2. Important Mental Model
-
-Many developers think:
-
-```txt
-Parent renders
-↓
-Child never renders
-```
-
-Wrong.
-
+:::important
 React still evaluates whether child should render.
 
-Memo simply allows React to skip rendering if props are equal.
+Memo simply allows React to **skip rendering** if props are equal.
+:::
 
 ---
 
-# 3. How React.memo Works
+## 3. How React.memo Works
 
-React compares previous props with new props.
-
----
-
-Example:
-
-```jsx id="5"
-<Child name="Somnath" />
-```
-
-Previous:
-
-```js
-{
-  name: "Somnath";
-}
-```
-
-New:
-
-```js
-{
-  name: "Somnath";
-}
-```
-
-Comparison:
+React compares previous props with new props using:
 
 ```js
 Object.is(prevProp, nextProp);
 ```
 
-Props same.
-
-React skips render.
+Props same → React skips render.
 
 ---
 
-# 4. What React.memo Does NOT Stop
+## 4. What React.memo Does NOT Stop
 
-Many interview questions come from this.
+:::warning[Many interview questions come from this]
 
----
+**Context Changes** — Even if component is memoized, context updates re-render consumers.
 
-## Context Changes
+**State Changes Inside Component** — `setCount(...)` always re-renders. Memo doesn't help.
 
-```jsx id="6"
-const theme = useContext(ThemeContext);
-```
+**useReducer Updates** — Same story.
 
-Context updates:
-
-```txt
-Consumer re-renders
-```
-
-Even if component is memoized.
+**Rule:** `React.memo` only compares props. Not state, context, or reducers.
+:::
 
 ---
 
-## State Changes Inside Component
-
-```jsx id="7"
-const [count, setCount] = useState(0);
-```
-
-Updating:
-
-```jsx
-setCount(...)
-```
-
-always re-renders component.
-
-Memo doesn't help.
-
----
-
-## useReducer Updates
-
-Same story.
-
----
-
-# Rule
-
-`React.memo` only compares props.
-
-Not:
-
-- state
-- context
-- reducers
-
----
-
-# 5. Referential Equality Problem
+## 5. Referential Equality Problem
 
 The biggest source of confusion.
 
----
+### Primitive Props ✅
 
-## Primitive Props
-
-Works well.
-
-```jsx id="8"
+```jsx
 <Child count={count} />
 ```
 
-React compares:
+React compares: `5 === 5` → Good.
 
-```js
-5 === 5;
-```
+### Object Props ❌
 
-Good.
-
----
-
-## Object Props
-
-```jsx id="9"
+```jsx
 <Child config={{ dark: true }} />
 ```
 
-Every render:
+Every render: `{} !== {}` → New reference → Child re-renders.
 
-```js
-{} !== {}
-```
+### ✅ Solution
 
-New object reference.
-
-Child re-renders.
-
----
-
-# Example
-
-```jsx id="10"
-function Parent() {
-  return (
-    <Child
-      config={{
-        dark: true,
-      }}
-    />
-  );
-}
-```
-
-Memo is useless here.
-
----
-
-# Solution
-
-```jsx id="11"
-const config = useMemo(() => ({
-  dark: true
-}), [])
+```jsx
+const config = useMemo(() => ({ dark: true }), []);
 
 <Child config={config} />
 ```
@@ -288,15 +135,13 @@ Now reference stable.
 
 ---
 
-# 6. Function Props Problem
+## 6. Function Props Problem
 
 Another huge one.
 
----
+### ❌ Problem
 
-## Parent
-
-```jsx id="12"
+```jsx
 function Parent() {
   const handleClick = () => {
     console.log("clicked");
@@ -306,416 +151,160 @@ function Parent() {
 }
 ```
 
-Every render:
+Every render creates new function → `oldFn !== newFn` → Child re-renders.
 
-```txt
-new function
-```
+### ✅ Solution
 
-Therefore:
-
-```js
-oldFn !== newFn;
-```
-
-Child re-renders.
-
----
-
-# Solution
-
-```jsx id="13"
+```jsx
 const handleClick = useCallback(() => {
   console.log("clicked");
 }, []);
 ```
 
-Stable reference.
+:::info[This is why]
+`React.memo` + `useMemo` + `useCallback` often appear together.
+:::
 
 ---
 
-# This is why
+## 7. Real Example
 
-```txt
-React.memo
-+
-useMemo
-+
-useCallback
-```
+### Child
 
-often appear together.
-
----
-
-# 7. Real Example
-
----
-
-## Child
-
-```jsx id="14"
+```jsx
 const UserCard = memo(function UserCard({ user, onSelect }) {
   console.log("render user");
-
   return <button onClick={onSelect}>{user.name}</button>;
 });
 ```
 
----
+### Parent
 
-## Parent
-
-```jsx id="15"
-const user = useMemo(() => ({
-  id: 1,
-  name: "Somnath"
-}), [])
+```jsx
+const user = useMemo(() => ({ id: 1, name: "Somnath" }), []);
 
 const onSelect = useCallback(() => {
-  console.log("selected")
-}, [])
+  console.log("selected");
+}, []);
 
-<UserCard
-  user={user}
-  onSelect={onSelect}
-/>
+<UserCard user={user} onSelect={onSelect} />
 ```
 
 Now memoization actually works.
 
 ---
 
-# 8. Custom Comparison Function
+## 8. Custom Comparison Function
 
 Advanced feature.
 
----
+Default uses `Object.is()`. You can override:
 
-Default:
-
-```js
-Object.is();
-```
-
-comparison.
-
----
-
-You can override:
-
-```jsx id="16"
+```jsx
 export default memo(UserCard, (prevProps, nextProps) => {
   return prevProps.user.id === nextProps.user.id;
 });
 ```
 
----
-
-# Example
-
-Only compare IDs.
-
-Even if object reference changes:
-
-```js
-{
-  id: 1,
-  name: "Somnath"
-}
-```
-
-↓
-
-```js
-{
-  id: 1,
-  name: "Somnath Updated"
-}
-```
-
-Component may skip render.
+:::danger
+Bad comparisons create stale UI. Use carefully.
+:::
 
 ---
 
-# Danger
+## 9. When React.memo Helps
 
-Bad comparisons create stale UI.
-
-Use carefully.
-
----
-
-# 9. When React.memo Helps
+| ✅ Helps | ❌ Useless |
+|---|---|
+| Expensive components (large tables, charts, editors) | Tiny components (`<span>Hello</span>`) |
+| Frequently re-rendering parents (dashboards, chat) | Constantly changing props |
+| Stable props | Heavy context consumers |
 
 ---
 
-## Expensive Components
+## 10. Common Mistakes
 
-Example:
+:::danger[Avoid these]
 
-```txt
-Large tables
-Charts
-Editors
-Maps
-Huge lists
-```
+**A. Memo Everything** — Creates complexity with little gain.
 
----
+**B. Ignoring Reference Stability** — `<Child config={{ dark: true }} />` defeats memo.
 
-## Frequently Re-rendering Parents
+**C. Expecting Memo To Fix Architecture** — Bad state placement won't be fixed by memo.
+:::
 
-```txt
-Dashboard
-Chat apps
-Realtime UI
-```
+:::tip[Senior Thought Process]
+Instead of asking "Should I add React.memo?" ask "Why is this component rendering?"
+
+Use React DevTools Profiler. Measure first.
+:::
 
 ---
 
-## Stable Props
-
-Memo only works when props stay stable.
-
----
-
-# 10. When React.memo Is Useless
-
----
-
-## Tiny Components
-
-```jsx id="17"
-function Label() {
-  return <span>Hello</span>;
-}
-```
-
-No meaningful gain.
-
----
-
-## Constantly Changing Props
-
-```jsx id="18"
-<Child
-  data={{ ... }}
-  onClick={() => {}}
-/>
-```
-
-Memo fails.
-
----
-
-## Heavy Context Consumers
-
-Context changes bypass memo.
-
----
-
-# 11. Common Mistakes
-
----
-
-## Memo Everything
-
-Bad.
-
-```jsx id="19"
-export default memo(Button)
-export default memo(Input)
-export default memo(Text)
-```
-
-Creates complexity.
-
-Little gain.
-
----
-
-## Ignoring Reference Stability
-
-```jsx id="20"
-<Child config={{ dark: true }} />
-```
-
-Memo doesn't help.
-
----
-
-## Expecting Memo To Fix Architecture
-
-Bad state placement:
-
-```txt
-Parent rerenders entire tree
-```
-
-won't magically be solved by memo.
-
----
-
-# 12. Real Senior-Level Thought Process
-
-Instead of asking:
-
-```txt
-Should I add React.memo?
-```
-
-Ask:
-
-```txt
-Why is this component rendering?
-```
-
-Use React DevTools Profiler.
-
-Measure first.
-
----
-
-# 13. React.memo vs useMemo
+## 11. React.memo vs useMemo
 
 Very common interview question.
 
----
-
-## React.memo
-
-Memoizes COMPONENT rendering.
-
-```jsx id="21"
-memo(Component);
-```
+| | `React.memo` | `useMemo` |
+|---|---|---|
+| **Memoizes** | COMPONENT rendering | VALUE |
+| **Example** | `memo(Component)` | `useMemo(() => value, deps)` |
 
 ---
 
-## useMemo
+## 12. React.memo vs useCallback
 
-Memoizes VALUE.
-
-```jsx id="22"
-useMemo(() => value, deps);
-```
-
----
-
-# Example
-
-```jsx id="23"
-const filteredUsers = useMemo(...)
-```
-
-Caches result.
-
----
-
-```jsx id="24"
-const UserList = memo(...)
-```
-
-Caches render.
-
----
-
-# 14. React.memo vs useCallback
-
----
-
-## React.memo
-
-Skips child render.
-
----
-
-## useCallback
-
-Keeps function prop stable.
-
----
+| | `React.memo` | `useCallback` |
+|---|---|---|
+| **Purpose** | Skips child render | Keeps function prop stable |
 
 They often work together.
 
 ---
 
-# 15. Interview-Level Example
-
----
+## 13. Interview-Level Example
 
 Without optimization:
 
-```jsx
-Parent render
-↓
-New function
-↓
-Child render
+```txt
+Parent render → New function → Child render
 ```
-
----
 
 With optimization:
 
-```jsx
-Parent render
-↓
-Stable callback
-↓
-Stable props
-↓
-React.memo skips child
+```txt
+Parent render → Stable callback → Stable props → React.memo skips child
 ```
 
 ---
 
-# 16. Senior-Level Rule
+## 14. Senior-Level Rule
 
+:::important
 Only use `React.memo` when:
 
-### Component is expensive
-
-AND
-
-### Parent renders frequently
-
-AND
-
-### Props can remain stable
+- Component is expensive **AND**
+- Parent renders frequently **AND**
+- Props can remain stable
 
 If one of these is missing, memoization often provides little benefit.
+:::
 
 ---
 
-# 17. Common Interview Questions
+## 15. Common Interview Questions
 
 ### Does React.memo prevent all re-renders?
 
-No.
-
-Only prop-driven renders.
-
-State and context updates still re-render.
-
----
+No. Only prop-driven renders. State and context updates still re-render.
 
 ### Why doesn't React.memo work with object props?
 
-Because object references change.
-
-```js
-{} !== {}
-```
-
----
+Because object references change. `{} !== {}`.
 
 ### Why pair React.memo with useCallback?
 
 To stabilize function references.
-
----
 
 ### Why pair React.memo with useMemo?
 
@@ -723,9 +312,7 @@ To stabilize object/array references.
 
 ---
 
-# Final Mental Model
-
-Think of rendering like this:
+## 16. Final Mental Model
 
 ```txt
 Parent Render
@@ -742,17 +329,19 @@ No  → Skip Child
 
 ---
 
-# Quick Rule of Thumb
+## Quick Rule of Thumb
 
-| Tool        | Purpose                                     |
-| ----------- | ------------------------------------------- |
-| useState    | Store UI state                              |
-| useRef      | Store mutable value without rendering       |
-| useEffect   | Synchronize with external systems           |
-| useContext  | Share values through tree                   |
-| useMemo     | Cache computed values                       |
-| useCallback | Cache function references                   |
-| useReducer  | Manage complex state transitions            |
-| React.memo  | Skip child renders when props are unchanged |
+| Tool | Purpose |
+|---|---|
+| useState | Store UI state |
+| useRef | Store mutable value without rendering |
+| useEffect | Synchronize with external systems |
+| useContext | Share values through tree |
+| useMemo | Cache computed values |
+| useCallback | Cache function references |
+| useReducer | Manage complex state transitions |
+| React.memo | Skip child renders when props are unchanged |
 
-The biggest mistake mid-level React developers make is trying to solve rendering problems with `React.memo` before understanding **why components are rendering in the first place**. Understanding render propagation, prop identity, context updates, and state placement is usually far more valuable than adding memoization everywhere.
+:::note
+The biggest mistake mid-level React developers make is trying to solve rendering problems with `React.memo` before understanding **why components are rendering in the first place**.
+:::

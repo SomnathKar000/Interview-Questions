@@ -1,10 +1,10 @@
 ---
-title: "custom Hooks - Deep Dive"
-sidebar_position: 11
+title: "Custom Hooks - Deep Dive"
+sidebar_position: 12
 description: "Senior-level deep dive into custom hooks — sharing logic, state encapsulation, performance optimizations, and common patterns."
 ---
 
-# Custom Hooks — Surface Level to Senior-Level Understanding
+## Custom Hooks — Surface Level to Senior-Level Understanding
 
 Custom Hooks are one of the biggest differences between a React developer and a React engineer.
 
@@ -20,7 +20,7 @@ A better understanding is:
 
 ---
 
-# 1. What is a Custom Hook?
+## 1. What is a Custom Hook?
 
 A custom hook is simply a function that:
 
@@ -56,7 +56,7 @@ function App() {
 
 ---
 
-# 2. Why Not Just Use Utility Functions?
+## 2. Why Not Just Use Utility Functions?
 
 Utility function:
 
@@ -104,7 +104,7 @@ Uses:
 
 ---
 
-# 3. What Problem Do Custom Hooks Solve?
+## 3. What Problem Do Custom Hooks Solve?
 
 Imagine two components.
 
@@ -146,7 +146,7 @@ Reusable.
 
 ---
 
-# 4. Important Mental Model
+## 4. Important Mental Model
 
 Custom hooks do NOT share state.
 
@@ -176,7 +176,7 @@ Completely separate.
 
 ---
 
-# 5. First Real Example
+## 5. First Real Example
 
 ---
 
@@ -217,7 +217,7 @@ const { count, increment, reset } = useCounter(10);
 
 ---
 
-# 6. Real-World Example — API Fetching
+## 6. Real-World Example — API Fetching
 
 A common custom hook.
 
@@ -265,7 +265,7 @@ Component stays clean.
 
 ---
 
-# 7. Real-World Example — Debounce
+## 7. Real-World Example — Debounce
 
 Very common interview question.
 
@@ -299,7 +299,7 @@ const debouncedSearch = useDebounce(search, 500);
 
 ---
 
-# 8. Real-World Example — Local Storage
+## 8. Real-World Example — Local Storage
 
 ---
 
@@ -329,7 +329,7 @@ const [theme, setTheme] = useLocalStorage("theme", "light");
 
 ---
 
-# 9. Custom Hooks + Context
+## 9. Custom Hooks + Context
 
 Senior pattern.
 
@@ -373,7 +373,7 @@ Safer.
 
 ---
 
-# 10. Composition is the Superpower
+## 10. Composition is the Superpower
 
 Hooks compose beautifully.
 
@@ -401,7 +401,7 @@ Combining hooks.
 
 ---
 
-# 11. Custom Hooks Can Return Anything
+## 11. Custom Hooks Can Return Anything
 
 ---
 
@@ -440,7 +440,7 @@ return width;
 
 ---
 
-# Senior Rule
+## Senior Rule
 
 Usually prefer objects.
 
@@ -448,7 +448,7 @@ More readable.
 
 ---
 
-# Good
+## Good
 
 ```jsx
 const { users, loading } = useUsers();
@@ -456,7 +456,7 @@ const { users, loading } = useUsers();
 
 ---
 
-# Less Clear
+## Less Clear
 
 ```jsx
 const [users, loading] = useUsers();
@@ -464,7 +464,7 @@ const [users, loading] = useUsers();
 
 ---
 
-# 12. Rules of Hooks Still Apply
+## 12. Rules of Hooks Still Apply
 
 Bad:
 
@@ -494,7 +494,7 @@ Custom hooks must obey all hook rules.
 
 ---
 
-# 13. Common Mistakes
+## 13. Common Mistakes
 
 ---
 
@@ -558,7 +558,7 @@ Unexpected behavior.
 
 ---
 
-# 14. Senior-Level Hook Design
+## 14. Senior-Level Hook Design
 
 A good hook should:
 
@@ -570,7 +570,7 @@ A good hook should:
 
 ---
 
-# Example
+## Example
 
 Good:
 
@@ -592,7 +592,7 @@ Too much.
 
 ---
 
-# 15. Hook Naming Convention
+## 15. Hook Naming Convention
 
 Always:
 
@@ -621,7 +621,7 @@ Lint rules depend on it.
 
 ---
 
-# 16. Real Senior-Level Examples
+## 16. Real Senior-Level Examples
 
 You'll frequently build:
 
@@ -676,7 +676,7 @@ useTheme();
 
 ---
 
-# 17. Interview Questions
+## 17. Interview Questions
 
 ### What is a custom hook?
 
@@ -706,7 +706,7 @@ That's one of their biggest strengths.
 
 ---
 
-# 18. Senior-Level Insight
+## 18. Senior-Level Insight
 
 Most developers see custom hooks as:
 
@@ -737,7 +737,7 @@ The hook owns that behavior.
 
 ---
 
-# Final Mental Model
+## Final Mental Model
 
 Think of custom hooks as:
 
@@ -770,7 +770,7 @@ useLocalStorage();
 
 ---
 
-# Quick Rule of Thumb
+## Quick Rule of Thumb
 
 Create a custom hook when:
 

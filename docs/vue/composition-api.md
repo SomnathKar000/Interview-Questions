@@ -4,7 +4,7 @@ sidebar_position: 1
 description: "Vue Composition API — techniques, trade-offs, and real-world implementation."
 ---
 
-# Level 1: Surface Level
+## Level 1: Surface Level
 
 ## What is Composition API?
 
@@ -53,7 +53,7 @@ Benefits:
 
 ---
 
-# Level 2: Understanding Reactivity
+## Level 2: Understanding Reactivity
 
 Senior developers should understand:
 
@@ -157,7 +157,7 @@ const { name } = toRefs(user);
 
 ---
 
-# Level 3: ref vs reactive
+## Level 3: ref vs reactive
 
 Many developers misuse these.
 
@@ -213,7 +213,7 @@ const fetchProfile = async () => {
 
 ---
 
-# Level 4: Computed
+## Level 4: Computed
 
 Derived state.
 
@@ -272,7 +272,7 @@ Function executes every render.
 
 ---
 
-# Level 5: watch
+## Level 5: watch
 
 Most abused Composition API feature.
 
@@ -343,7 +343,7 @@ Avoid for large objects.
 
 ---
 
-# Level 6: watchEffect
+## Level 6: watchEffect
 
 Vue automatically tracks dependencies.
 
@@ -388,7 +388,7 @@ Runs once.
 
 ---
 
-# Level 7: Lifecycle Hooks
+## Level 7: Lifecycle Hooks
 
 ---
 
@@ -431,7 +431,7 @@ Causes:
 
 ---
 
-# Level 8: Composables
+## Level 8: Composables
 
 This is where senior engineers spend most time.
 
@@ -492,7 +492,7 @@ const { count, increment } = useCounter();
 
 ---
 
-# Level 9: Advanced Composables
+## Level 9: Advanced Composables
 
 ### Shared State
 
@@ -528,7 +528,7 @@ Senior developers understand this distinction.
 
 ---
 
-# Level 10: Dependency Tracking Internals
+## Level 10: Dependency Tracking Internals
 
 Vue uses:
 
@@ -579,7 +579,7 @@ This is the foundation of Vue reactivity.
 
 ---
 
-# Level 11: Performance Optimization
+## Level 11: Performance Optimization
 
 ---
 
@@ -632,7 +632,7 @@ Force update.
 
 ---
 
-# Level 12: Senior-Level Watch Patterns
+## Level 12: Senior-Level Watch Patterns
 
 ### API Search Debounce
 
@@ -675,7 +675,7 @@ watch(
 
 ---
 
-# Level 13: Common Pitfalls
+## Level 13: Common Pitfalls
 
 ---
 
@@ -743,7 +743,7 @@ can become expensive.
 
 ---
 
-# Level 14: Architecture Patterns Senior Engineers Use
+## Level 14: Architecture Patterns Senior Engineers Use
 
 ---
 
@@ -786,7 +786,7 @@ Pinia manages global state.
 
 ---
 
-# What Interviewers Expect From a 3-Year Vue Engineer
+## What Interviewers Expect From a 3-Year Vue Engineer
 
 You should comfortably explain:
 

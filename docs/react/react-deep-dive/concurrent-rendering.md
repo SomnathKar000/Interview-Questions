@@ -1,10 +1,10 @@
 ---
 title: "Concurrent Rendering"
-sidebar_position: 14
-description: "Senior-level deep dive into Concurrent Rendering — how React decides when to re-render, when to skip, and how to optimize it."
+sidebar_position: 15
+description: "Senior-level deep dive into Concurrent Rendering — interruptible rendering, startTransition, useDeferredValue, and priority-based updates."
 ---
 
-# Concurrent Rendering — The Most Misunderstood React Topic
+## Concurrent Rendering — The Most Misunderstood React Topic
 
 When developers hear **Concurrent Rendering**, they often think:
 
@@ -22,7 +22,7 @@ This is one of the biggest architectural changes introduced in React 18.
 
 ---
 
-# 1. The Problem Before React 18
+## 1. The Problem Before React 18
 
 Imagine:
 
@@ -72,7 +72,7 @@ Because React blocks the main thread until rendering finishes.
 
 ---
 
-# 2. Concurrent Rendering Idea
+## 2. Concurrent Rendering Idea
 
 Instead:
 
@@ -96,7 +96,7 @@ This improves responsiveness.
 
 ---
 
-# 3. Key Concept: Interruptible Rendering
+## 3. Key Concept: Interruptible Rendering
 
 Old React:
 
@@ -132,7 +132,7 @@ Start fresh render
 
 ---
 
-# 4. Why This Matters
+## 4. Why This Matters
 
 Imagine search:
 
@@ -179,7 +179,7 @@ Typing stays smooth.
 
 ---
 
-# 5. Priority-Based Rendering
+## 5. Priority-Based Rendering
 
 React internally assigns priorities.
 
@@ -219,7 +219,7 @@ React can prioritize urgent work.
 
 ---
 
-# 6. Render Can Be Thrown Away
+## 6. Render Can Be Thrown Away
 
 This surprises many developers.
 
@@ -264,7 +264,7 @@ Commit never happened
 
 ---
 
-# 7. Why Render Must Stay Pure
+## 7. Why Render Must Stay Pure
 
 This is one reason React insists:
 
@@ -309,7 +309,7 @@ Effects = Side effects
 
 ---
 
-# 8. useEffect and Concurrent Rendering
+## 8. useEffect and Concurrent Rendering
 
 Effects only run after commit.
 
@@ -345,7 +345,7 @@ This makes effects safe.
 
 ---
 
-# 9. Automatic Batching
+## 9. Automatic Batching
 
 React 18 introduced expanded batching.
 
@@ -388,7 +388,7 @@ React batches updates.
 
 ---
 
-# 10. startTransition()
+## 10. startTransition()
 
 One of the most important APIs.
 
@@ -430,7 +430,7 @@ remains responsive.
 
 ---
 
-# Real Example
+## Real Example
 
 ```jsx
 const [input, setInput] = useState("");
@@ -463,7 +463,7 @@ Typing stays smooth.
 
 ---
 
-# 11. useTransition()
+## 11. useTransition()
 
 Hook version of startTransition.
 
@@ -495,7 +495,7 @@ Display loading state:
 
 ---
 
-# 12. useDeferredValue()
+## 12. useDeferredValue()
 
 Another concurrent feature.
 
@@ -542,7 +542,7 @@ Dashboards
 
 ---
 
-# 13. Strict Mode and Concurrency
+## 13. Strict Mode and Concurrency
 
 Why does React sometimes render twice?
 
@@ -571,7 +571,7 @@ This prepares components for concurrent rendering.
 
 ---
 
-# 14. State as Snapshots
+## 14. State as Snapshots
 
 Concurrency reinforces this concept.
 
@@ -605,7 +605,7 @@ React may work on multiple snapshots internally.
 
 ---
 
-# 15. What Concurrent Rendering Does NOT Mean
+## 15. What Concurrent Rendering Does NOT Mean
 
 ---
 
@@ -644,7 +644,7 @@ Less rendering time
 
 ---
 
-# 16. Why useMemo/useCallback Matter More
+## 16. Why useMemo/useCallback Matter More
 
 In concurrent rendering:
 
@@ -662,7 +662,7 @@ Proper memoization becomes more valuable.
 
 ---
 
-# 17. Why React.memo Still Matters
+## 17. Why React.memo Still Matters
 
 Concurrent rendering may:
 
@@ -676,7 +676,7 @@ But React.memo can still skip unnecessary child renders.
 
 ---
 
-# 18. Real Senior-Level Example
+## 18. Real Senior-Level Example
 
 Imagine:
 
@@ -733,7 +733,7 @@ Much smoother UX.
 
 ---
 
-# 19. Interview Questions
+## 19. Interview Questions
 
 ### What is Concurrent Rendering?
 
@@ -779,7 +779,7 @@ Delays consumption of a value
 
 ---
 
-# 20. Senior-Level Mental Model
+## 20. Senior-Level Mental Model
 
 Old React:
 
@@ -811,13 +811,13 @@ Commit Latest Version
 
 ---
 
-# One-Sentence Summary
+## One-Sentence Summary
 
 **Concurrent Rendering doesn't make React render in parallel; it makes rendering interruptible and priority-aware so the UI stays responsive even during expensive updates.**
 
 ---
 
-# Where Concurrent Features Actually Matter
+## Where Concurrent Features Actually Matter
 
 You'll most commonly use them in:
 

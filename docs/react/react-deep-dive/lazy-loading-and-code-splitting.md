@@ -1,10 +1,10 @@
 ---
 title: "Lazy Loading and Code Splitting"
-sidebar_position: 17
+sidebar_position: 18
 description: "Senior-level guide to React Lazy Loading and Code Splitting — techniques, trade-offs, and real-world implementation."
 ---
 
-# Lazy Loading & Code Splitting — Senior-Level Understanding
+## Lazy Loading & Code Splitting — Senior-Level Understanding
 
 Most developers learn:
 
@@ -27,7 +27,7 @@ These techniques are critical for:
 
 ---
 
-# 1. The Problem
+## 1. The Problem
 
 Imagine your app:
 
@@ -77,7 +77,7 @@ This is wasteful.
 
 ---
 
-# 2. What is Code Splitting?
+## 2. What is Code Splitting?
 
 Instead of:
 
@@ -99,7 +99,7 @@ Now browser downloads only what's needed.
 
 ---
 
-# Before
+## Before
 
 ```txt
 main.js
@@ -112,7 +112,7 @@ main.js
 
 ---
 
-# After
+## After
 
 ```txt
 main.js
@@ -128,7 +128,7 @@ Separate bundles.
 
 ---
 
-# 3. Dynamic Imports
+## 3. Dynamic Imports
 
 JavaScript already supports this.
 
@@ -168,7 +168,7 @@ This is the foundation of React lazy loading.
 
 ---
 
-# 4. React.lazy
+## 4. React.lazy
 
 React wrapper around dynamic imports.
 
@@ -192,7 +192,7 @@ Downloaded when rendered.
 
 ---
 
-# 5. Why Suspense Is Required
+## 5. Why Suspense Is Required
 
 React needs something to show while bundle loads.
 
@@ -232,7 +232,7 @@ Component rendered
 
 ---
 
-# 6. Route-Based Code Splitting
+## 6. Route-Based Code Splitting
 
 Most common real-world pattern.
 
@@ -284,7 +284,7 @@ Huge win.
 
 ---
 
-# 7. Real Production Example
+## 7. Real Production Example
 
 Imagine SaaS app.
 
@@ -342,7 +342,7 @@ Massive improvement.
 
 ---
 
-# 8. Component-Level Lazy Loading
+## 8. Component-Level Lazy Loading
 
 Not just routes.
 
@@ -382,7 +382,7 @@ Rich Text Editors
 
 ---
 
-# 9. Example — Admin Panel
+## 9. Example — Admin Panel
 
 ---
 
@@ -416,7 +416,7 @@ Only admins download it.
 
 ---
 
-# 10. Nested Suspense
+## 10. Nested Suspense
 
 You can have multiple boundaries.
 
@@ -446,7 +446,7 @@ Useful for large applications.
 
 ---
 
-# 11. Bundle Splitting Strategy
+## 11. Bundle Splitting Strategy
 
 Senior engineers usually split:
 
@@ -486,7 +486,7 @@ Large dependencies loaded only when required.
 
 ---
 
-# 12. Common Mistake
+## 12. Common Mistake
 
 Lazy loading everything.
 
@@ -524,7 +524,7 @@ components.
 
 ---
 
-# 13. Prefetching
+## 13. Prefetching
 
 Sometimes you know user will likely navigate.
 
@@ -560,7 +560,7 @@ Many frameworks do this automatically.
 
 ---
 
-# 14. React Router Lazy Routes
+## 14. React Router Lazy Routes
 
 Modern React Router supports:
 
@@ -576,7 +576,7 @@ This is preferred in larger apps.
 
 ---
 
-# 15. Next.js and Code Splitting
+## 15. Next.js and Code Splitting
 
 Modern frameworks do much automatically.
 
@@ -616,7 +616,7 @@ Very common.
 
 ---
 
-# 16. Loading States Matter
+## 16. Loading States Matter
 
 Bad:
 
@@ -654,7 +654,7 @@ Improves perceived performance.
 
 ---
 
-# 17. Common Interview Questions
+## 17. Common Interview Questions
 
 ### Difference between lazy loading and code splitting?
 
@@ -709,7 +709,7 @@ Text
 
 ---
 
-# 18. Real Senior-Level Strategy
+## 18. Real Senior-Level Strategy
 
 Typical production React app:
 
@@ -750,7 +750,7 @@ loaded only when needed.
 
 ---
 
-# 19. How This Relates to Rendering
+## 19. How This Relates to Rendering
 
 Remember:
 
@@ -790,7 +790,7 @@ Both matter.
 
 ---
 
-# 20. Senior-Level Mental Model
+## 20. Senior-Level Mental Model
 
 Think of performance as three phases:
 
@@ -833,7 +833,7 @@ useDeferredValue
 
 ---
 
-# One-Sentence Summary
+## One-Sentence Summary
 
 **Code splitting breaks your app into smaller bundles, and lazy loading ensures those bundles are downloaded only when needed, reducing initial load time and improving user-perceived performance.**
 

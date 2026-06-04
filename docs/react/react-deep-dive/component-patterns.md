@@ -1,10 +1,10 @@
 ---
 title: "Component Patterns"
-sidebar_position: 15
-description: "Senior-level deep dive into Component Patterns — how React decides when to re-render, when to skip, and how to optimize it."
+sidebar_position: 16
+description: "Senior-level deep dive into Component Patterns — compound components, render props, HOCs, headless UI, and composition strategies."
 ---
 
-# React Component Patterns — From Mid-Level to Senior-Level
+## React Component Patterns — From Mid-Level to Senior-Level
 
 When developers reach ~3 years of experience, the challenge is no longer:
 
@@ -18,7 +18,7 @@ Component patterns are essentially reusable architectural solutions.
 
 ---
 
-# 1. Presentational vs Container Components
+## 1. Presentational vs Container Components
 
 One of the oldest React patterns.
 
@@ -73,7 +73,7 @@ function UserCardContainer() {
 
 ---
 
-# Modern Equivalent
+## Modern Equivalent
 
 Today we often move container logic into:
 
@@ -98,7 +98,7 @@ function UserCard() {
 
 ---
 
-# 2. Custom Hook Pattern
+## 2. Custom Hook Pattern
 
 Probably the most important modern React pattern.
 
@@ -148,7 +148,7 @@ useUsers();
 
 ---
 
-# Senior Rule
+## Senior Rule
 
 Components render.
 
@@ -156,7 +156,7 @@ Hooks manage behavior.
 
 ---
 
-# 3. Compound Components Pattern
+## 3. Compound Components Pattern
 
 Extremely common in UI libraries.
 
@@ -212,7 +212,7 @@ Used heavily by:
 
 ---
 
-# 4. Controlled Components Pattern
+## 4. Controlled Components Pattern
 
 React owns state.
 
@@ -242,7 +242,7 @@ Benefits:
 
 ---
 
-# 5. Uncontrolled Components Pattern
+## 5. Uncontrolled Components Pattern
 
 DOM owns state.
 
@@ -272,7 +272,7 @@ Used in:
 
 ---
 
-# 6. Controlled + Uncontrolled Hybrid Pattern
+## 6. Controlled + Uncontrolled Hybrid Pattern
 
 Very common in libraries.
 
@@ -301,7 +301,7 @@ Used by:
 
 ---
 
-# 7. Render Props Pattern
+## 7. Render Props Pattern
 
 Popular before hooks.
 
@@ -335,7 +335,7 @@ Custom Hooks
 
 ---
 
-# 8. Higher Order Component (HOC)
+## 8. Higher Order Component (HOC)
 
 Another older pattern.
 
@@ -385,7 +385,7 @@ withRouter()
 
 ---
 
-# 9. Provider Pattern
+## 9. Provider Pattern
 
 Very important.
 
@@ -432,7 +432,7 @@ Feature Flags
 
 ---
 
-# 10. Headless Component Pattern
+## 10. Headless Component Pattern
 
 Huge modern trend.
 
@@ -475,7 +475,7 @@ Examples:
 
 ---
 
-# 11. State Reducer Pattern
+## 11. State Reducer Pattern
 
 Used by advanced component libraries.
 
@@ -513,7 +513,7 @@ Downshift
 
 ---
 
-# 12. Slots Pattern
+## 12. Slots Pattern
 
 Popular in Vue.
 
@@ -545,7 +545,7 @@ Provides flexible layouts.
 
 ---
 
-# 13. Polymorphic Components
+## 13. Polymorphic Components
 
 Very common in design systems.
 
@@ -584,7 +584,7 @@ Used heavily by:
 
 ---
 
-# 14. Imperative API Pattern
+## 14. Imperative API Pattern
 
 Uses:
 
@@ -617,7 +617,7 @@ Not for ordinary state.
 
 ---
 
-# 15. Composition Pattern (Most Important)
+## 15. Composition Pattern (Most Important)
 
 React philosophy:
 
@@ -664,7 +664,7 @@ Small pieces combined together.
 
 ---
 
-# Real Senior Example
+## Real Senior Example
 
 Imagine building a Modal library.
 
@@ -714,7 +714,7 @@ User only sees:
 
 ---
 
-# Pattern Selection Guide
+## Pattern Selection Guide
 
 | Problem                        | Pattern                          |
 | ------------------------------ | -------------------------------- |
@@ -731,7 +731,7 @@ User only sees:
 
 ---
 
-# What Senior Engineers Use Most Today
+## What Senior Engineers Use Most Today
 
 In modern React codebases:
 
@@ -767,6 +767,6 @@ In modern React codebases:
 
 ---
 
-# One-Sentence Summary
+## One-Sentence Summary
 
 A senior React engineer isn't judged by knowing hooks individually; they're judged by knowing how to combine component patterns to create scalable, reusable, maintainable systems.

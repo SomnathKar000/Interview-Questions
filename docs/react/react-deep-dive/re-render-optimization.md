@@ -1,10 +1,10 @@
 ---
 title: "Re-render Optimization"
-sidebar_position: 16
-description: "Senior-level deep dive into Re-render Optimization — how React decides when to re-render, when to skip, and how to optimize it."
+sidebar_position: 17
+description: "Senior-level deep dive into Re-render Optimization — state placement, memoization triangle, context splitting, and virtualization."
 ---
 
-# Re-render Optimization — What Senior React Engineers Actually Optimize
+## Re-render Optimization — What Senior React Engineers Actually Optimize
 
 Most developers think:
 
@@ -37,7 +37,7 @@ The expensive parts are often:
 
 ---
 
-# 1. First Rule: Measure Before Optimizing
+## 1. First Rule: Measure Before Optimizing
 
 Use:
 
@@ -58,7 +58,7 @@ Optimize because:
 
 ---
 
-# 2. Understand What Causes Re-renders
+## 2. Understand What Causes Re-renders
 
 A component re-renders when:
 
@@ -104,7 +104,7 @@ dispatch(...)
 
 ---
 
-# 3. The Biggest Optimization: State Placement
+## 3. The Biggest Optimization: State Placement
 
 Most performance issues come from state living too high.
 
@@ -152,7 +152,7 @@ Only Search re-renders.
 
 ---
 
-# Senior Rule
+## Senior Rule
 
 > Move state as close as possible to where it's used.
 
@@ -160,7 +160,7 @@ This is often more impactful than all memoization combined.
 
 ---
 
-# 4. React.memo
+## 4. React.memo
 
 Most common optimization.
 
@@ -204,7 +204,7 @@ Use when:
 
 ---
 
-# 5. Stable Object References
+## 5. Stable Object References
 
 Memo often fails because of this.
 
@@ -245,7 +245,7 @@ const config = useMemo(
 
 ---
 
-# 6. Stable Function References
+## 6. Stable Function References
 
 Bad:
 
@@ -275,7 +275,7 @@ is involved.
 
 ---
 
-# 7. Context Optimization
+## 7. Context Optimization
 
 One of the biggest real-world issues.
 
@@ -317,7 +317,7 @@ Split contexts.
 
 ---
 
-# Example
+## Example
 
 Instead of:
 
@@ -333,7 +333,7 @@ Use:
 
 ---
 
-# 8. Avoid Derived State
+## 8. Avoid Derived State
 
 Bad:
 
@@ -369,7 +369,7 @@ No extra render.
 
 ---
 
-# 9. Memoize Expensive Calculations
+## 9. Memoize Expensive Calculations
 
 ---
 
@@ -408,7 +408,7 @@ Overkill.
 
 ---
 
-# 10. Large Lists
+## 10. Large Lists
 
 Very common bottleneck.
 
@@ -451,7 +451,7 @@ instead of:
 
 ---
 
-# 11. Context Selector Problem
+## 11. Context Selector Problem
 
 Suppose:
 
@@ -478,7 +478,7 @@ Solutions:
 
 ---
 
-# 12. Component Splitting
+## 12. Component Splitting
 
 Bad:
 
@@ -506,7 +506,7 @@ Separate boundaries.
 
 ---
 
-# 13. Avoid Effect-Driven Architecture
+## 13. Avoid Effect-Driven Architecture
 
 Bad:
 
@@ -540,7 +540,7 @@ Single render.
 
 ---
 
-# 14. useTransition
+## 14. useTransition
 
 React 18 optimization.
 
@@ -572,7 +572,7 @@ Useful for:
 
 ---
 
-# 15. useDeferredValue
+## 15. useDeferredValue
 
 Example:
 
@@ -597,7 +597,7 @@ Large tables
 
 ---
 
-# 16. Memoization Triangle
+## 16. Memoization Triangle
 
 The classic optimization trio.
 
@@ -648,7 +648,7 @@ Now optimization works.
 
 ---
 
-# 17. Common Anti-Patterns
+## 17. Common Anti-Patterns
 
 ---
 
@@ -694,7 +694,7 @@ Huge source of render storms.
 
 ---
 
-# 18. Optimization Priority Order
+## 18. Optimization Priority Order
 
 Senior engineers usually optimize in this order:
 
@@ -734,7 +734,7 @@ Fine-grained gains.
 
 ---
 
-# 19. Real Interview Question
+## 19. Real Interview Question
 
 ### Why is my component re-rendering?
 
@@ -766,7 +766,7 @@ Profile before optimizing
 
 ---
 
-# 20. Senior-Level Mental Model
+## 20. Senior-Level Mental Model
 
 Most mid-level developers optimize:
 
@@ -796,6 +796,6 @@ is often better than:
 
 ---
 
-# One-Sentence Summary
+## One-Sentence Summary
 
 **The most effective React performance optimization is usually better state ownership and component architecture—not adding `useMemo`, `useCallback`, and `React.memo` everywhere.**
