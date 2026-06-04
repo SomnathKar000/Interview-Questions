@@ -203,7 +203,6 @@ const config = {
 
         indexName: "interview-prep-hub",
 
-        // Optional: see https://docusaurus.io/docs/search#connecting-algolia
         contextualSearch: true,
 
         // Optional: search page path (default: /search)
