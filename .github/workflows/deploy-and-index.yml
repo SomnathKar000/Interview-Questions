@@ -1,0 +1,29 @@
+name: Algolia Index
+
+on:
+  # Triggered automatically by Vercel's GitHub integration
+  deployment_status:
+  workflow_dispatch:
+
+jobs:
+  algolia-crawl:
+    runs-on: ubuntu-latest
+    # Only run after a successful Vercel production deployment
+    if: >
+      github.event_name == 'workflow_dispatch' ||
+      (github.event.deployment_status.state == 'success' &&
+       github.event.deployment_status.environment == 'Production')
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Run Algolia DocSearch Scraper
+        env:
+          APPLICATION_ID: ${{ secrets.ALGOLIA_APPLICATION_ID }}
+          API_KEY: ${{ secrets.ALGOLIA_ADMIN_API_KEY }}
+        run: |
+          docker run \
+            --env APPLICATION_ID="${APPLICATION_ID}" \
+            --env API_KEY="${API_KEY}" \
+            --env "CONFIG=$(cat algolia-config.json | jq -r tostring)" \
+            algolia/docsearch-scraper
