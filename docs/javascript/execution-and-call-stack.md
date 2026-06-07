@@ -39,7 +39,7 @@ During the Creation Phase, JavaScript allocates memory for variables and functio
 2. The function `square` is allocated memory, containing the entire code of the function.
 3. Memory for variables `square2` and `square4` is allocated, both storing `undefined`.
 
-![Creation Phase](https://res.cloudinary.com/practicaldev/image/fetch/s--GKNbYzk4--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_66%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/68nk5l6806bax94k0tky.gif)
+![Creation Phase](/img/javaScript-execution-context-creation-phase.png)
 
 #### Code Execution Phase
 
@@ -48,14 +48,13 @@ Moving on to the Code Execution Phase, JavaScript goes through the program line 
 1. The value `2` is assigned to the variable `n`.
 2. Upon reaching the function invocation `square(n)`, a new Execution Context is created within the global Execution Context. This new context has its own Memory and Code Components.
 
-   ![New Execution Context](https://res.cloudinary.com/practicaldev/image/fetch/s--Z5ZMX2Nr--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_66%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/zvfyis150o3i7bn1x6hy.gif)
+   ![New Execution Context](/img/javaScript-code-execution-explained-visually.png)
 
    Inside this new Execution Context, the Creation Phase and Code Execution Phase are repeated. Memory is allocated for the variables `num` and `ans`, both initially storing `undefined`.
 
    ![New Execution Context Creation Phase](https://res.cloudinary.com/practicaldev/image/fetch/s--BrZHpOr9--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_66%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/e67rsojvcqmowwj3w75b.gif)
 
    During the Code Execution Phase of the new Execution Context, the code inside the `square` function is executed step by step:
-
    - The value of `num` becomes `2`.
    - The value of `ans` becomes the square of `num`, which is `4`.
    - The function returns `ans`, which is assigned to `square2`.
