@@ -12,7 +12,7 @@ sidebar_position: 1
 
 ### Let's see how the Execution Context actually looks like
 
-![Execution Context](https://res.cloudinary.com/practicaldev/image/fetch/s--AC5E-9bo--/c_imagga_scale,f_auto,fl_progressive,h_420,q_66,w_1000/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/eiz3o1fe8lx4okxtmi27.gif)
+![Execution Context](/img/execution-context.png)
 
 The Execution Context is like a big box and it has two components in it.
 
